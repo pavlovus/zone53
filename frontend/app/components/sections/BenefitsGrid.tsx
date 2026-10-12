@@ -109,7 +109,7 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
             onClick={onRequestAccess}
             className="w-full sm:w-auto text-xs sm:text-sm whitespace-nowrap"
           >
-            SUBMIT CLEARANCE APPLICATION ↗
+            BECOME A SPONSOR ↗
           </Button>
         </div>
       </div>

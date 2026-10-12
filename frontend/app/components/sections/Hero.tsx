@@ -63,7 +63,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
                 onClick={onRequestAccess}
                 className="w-full sm:w-auto text-xs sm:text-sm"
               >
-                REQUEST ACCESS [DOSSIER] ↗
+                BECOME A SPONSOR ↗
               </Button>
 
               <Button
@@ -73,7 +73,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
                 onClick={onExploreFacility}
                 className="w-full sm:w-auto text-xs sm:text-sm"
               >
-                FACILITY TOUR ↓
+                SEE DEMO ↓
               </Button>
             </div>
           </div>

@@ -59,7 +59,7 @@ export function Header({ onRequestAccess }: HeaderProps) {
             onClick={onRequestAccess}
             className="text-[11px] sm:text-xs"
           >
-            REQUEST ACCESS ↗
+            BECOME A SPONSOR ↗
           </Button>
         </div>
       </div>
