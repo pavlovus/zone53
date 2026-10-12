@@ -4,6 +4,8 @@ import {
   playTelemetryPing,
   playHeavyStampSound,
   playAuthorizationChord,
+  isAudioEnabled,
+  setAudioEnabled as setAudioEnabledGlobal,
 } from "../../utils/audio";
 
 interface TopSecretDossierModalProps {
@@ -31,6 +33,24 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [copiedReceipt, setCopiedReceipt] = useState(false);
   const [formattedTime, setFormattedTime] = useState("");
+
+  useEffect(() => {
+    setAudioEnabled(isAudioEnabled());
+
+    const handleAudioSync = (e: Event) => {
+      const customEvent = e as CustomEvent<boolean>;
+      setAudioEnabled(customEvent.detail);
+    };
+
+    window.addEventListener("z53_audio_change", handleAudioSync);
+    return () => window.removeEventListener("z53_audio_change", handleAudioSync);
+  }, [isOpen]);
+
+  const handleToggleAudio = () => {
+    const next = !audioEnabled;
+    setAudioEnabled(next);
+    setAudioEnabledGlobal(next);
+  };
 
   // Lifecycle states:
   // - isMounted: DOM presence (stays true during exit animation)
@@ -418,7 +438,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
             <button
               id="dossier-audio-toggle"
               type="button"
-              onClick={() => setAudioEnabled((prev) => !prev)}
+              onClick={handleToggleAudio}
               className="font-mono text-[10px] sm:text-xs text-white/60 hover:text-[#FFCC00] active:scale-95 px-2 py-1 bg-black/60 border border-white/20 hover:border-[#FFCC00] cursor-pointer relative z-20 transition-all select-none"
               aria-label={audioEnabled ? "Mute interface audio effects" : "Enable interface audio effects"}
               title="Toggle audio telemetry"
@@ -669,17 +689,23 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 <button
                   type="button"
                   onClick={directSubmit}
-                  className="px-4 h-11 bg-black border border-[#444444] hover:border-[#FFCC00] active:scale-[0.98] text-white/80 hover:text-white font-mono text-xs tracking-wider uppercase cursor-pointer transition-all"
+                  className="group px-4 h-11 bg-black border border-[#444444] hover:border-[#FFCC00] active:scale-[0.98] text-white/80 hover:text-white font-mono text-xs tracking-wider uppercase cursor-pointer transition-all inline-flex items-center gap-2"
                 >
-                  DIRECT TRANSMIT ➔
+                  <span>DIRECT TRANSMIT</span>
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110" aria-hidden="true">
+                    ➔
+                  </span>
                 </button>
 
                 <button
                   id="dossier-submit-btn"
                   type="submit"
-                  className="px-6 sm:px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-transform cursor-pointer"
+                  className="group px-6 sm:px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-transform cursor-pointer inline-flex items-center gap-2"
                 >
-                  BIOMETRIC SEAL ➔
+                  <span>BIOMETRIC SEAL</span>
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110" aria-hidden="true">
+                    ➔
+                  </span>
                 </button>
               </div>
             </form>
@@ -769,17 +795,23 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 <button
                   type="button"
                   onClick={triggerAutoSeal}
-                  className="px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-all cursor-pointer"
+                  className="group px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-all cursor-pointer inline-flex items-center gap-2"
                 >
-                  SEAL & TRANSMIT ➔
+                  <span>SEAL & TRANSMIT</span>
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110" aria-hidden="true">
+                    ➔
+                  </span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setStep("fill")}
-                  className="font-mono text-xs text-white/50 hover:text-white underline uppercase cursor-pointer"
+                  className="group font-mono text-xs text-white/50 hover:text-white underline uppercase cursor-pointer inline-flex items-center gap-1.5"
                 >
-                  ← BACK TO EDIT
+                  <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1 group-hover:scale-110" aria-hidden="true">
+                    ←
+                  </span>
+                  <span>BACK TO EDIT</span>
                 </button>
               </div>
             </div>

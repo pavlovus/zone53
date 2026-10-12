@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Route } from "./+types/home";
 import { Header } from "../components/sections/Header";
 import { Hero } from "../components/sections/Hero";
@@ -33,6 +33,37 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const [isDossierOpen, setIsDossierOpen] = useState(false);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll("[data-reveal]").forEach((el) => {
+        el.classList.add("revealed");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "0px 0px -40px 0px",
+        threshold: 0.08,
+      }
+    );
+
+    const elements = document.querySelectorAll("[data-reveal]");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   const openDossier = () => setIsDossierOpen(true);
   const closeDossier = () => setIsDossierOpen(false);
 
@@ -60,8 +91,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black text-white relative flex flex-col selection:bg-[#FFCC00] selection:text-black">
-      {/* Interactive WebGL Wavy Grid Canvas spanning the entire page */}
-      <WavyGridBackground />
+      {/* Interactive WebGL Wavy Grid Canvas spanning the entire page (paused when modal open) */}
+      <WavyGridBackground active={!isDossierOpen} />
+
+      {/* Tactile Analog 35mm Film Grain / Titanium Material Texture Overlay */}
+      <div className="tactical-noise" aria-hidden="true" />
 
       {/* Top Tactical HUD Header */}
       <Header onRequestAccess={openDossier} />

@@ -28,6 +28,20 @@ export const links: Route.LinksFunction = () => [
     href: "/fonts/Druk-Heavy-subset.woff2",
     crossOrigin: "anonymous",
   },
+  {
+    rel: "preload",
+    as: "font",
+    type: "font/woff2",
+    href: "/fonts/HelveticaNeueCyr-Bold.woff2",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "preload",
+    as: "image",
+    type: "image/webp",
+    href: "/media/sky.webp",
+    media: "(min-width: 1024px)",
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -40,6 +54,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {/* WCAG 2.4.1 Skip-to-content anchor for keyboard and screen reader accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#FFCC00] focus:text-black focus:font-mono focus:text-xs focus:font-bold focus:shadow-[0_0_15px_rgba(255,204,0,0.5)] focus:outline-none"
+        >
+          [SKIP TO PRIMARY CONTENT ➔]
+        </a>
         {children}
         <ScrollRestoration />
         <Scripts />

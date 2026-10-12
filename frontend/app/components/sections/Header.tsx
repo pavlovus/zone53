@@ -7,10 +7,18 @@ interface HeaderProps {
 }
 
 export function Header({ onRequestAccess }: HeaderProps) {
-  const [audioState, setAudioState] = useState(true);
+  const [audioState, setAudioState] = useState(false);
 
   useEffect(() => {
     setAudioState(isAudioEnabled());
+
+    const handleAudioChange = (e: Event) => {
+      const customEvent = e as CustomEvent<boolean>;
+      setAudioState(customEvent.detail);
+    };
+
+    window.addEventListener("z53_audio_change", handleAudioChange);
+    return () => window.removeEventListener("z53_audio_change", handleAudioChange);
   }, []);
 
   const handleToggleAudio = () => {
@@ -19,7 +27,7 @@ export function Header({ onRequestAccess }: HeaderProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-black/85 backdrop-blur-md border-b border-[#222222]">
+    <header className="fixed top-0 left-0 right-0 z-40 bg-black/85 backdrop-blur-md border-b border-[#222222] pt-[env(safe-area-inset-top,0px)] header-entrance">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between gap-4">
         {/* Left: Epikor / Zone 53 Identity */}
         <div className="flex items-center gap-4 sm:gap-6">
@@ -39,16 +47,23 @@ export function Header({ onRequestAccess }: HeaderProps) {
         </div>
 
         {/* Right: Audio toggle + Primary Access CTA */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-4">
           <button
             type="button"
             onClick={handleToggleAudio}
-            className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-black/60 border border-[#333333] hover:border-[#FFCC00]/50 text-[10px] font-mono tracking-widest text-white/70 hover:text-white transition-colors cursor-pointer"
-            aria-label="Toggle synthesized audio effects"
-            title="Toggle synthesized audio effects"
+            className={`inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 bg-black/70 border ${
+              audioState ? "border-[#FFCC00]/70 text-[#FFCC00]" : "border-[#333333] text-white/60 hover:text-white"
+            } hover:border-[#FFCC00] text-[10px] font-mono tracking-widest transition-colors cursor-pointer select-none chamfer-sm`}
+            aria-label={audioState ? "Mute soundtrack and telemetry audio" : "Enable Epikor soundtrack and telemetry audio"}
+            title={audioState ? "Mute soundtrack and telemetry audio" : "Enable Epikor soundtrack and telemetry audio"}
           >
-            <span className={audioState ? "text-[#FFCC00]" : "text-white/40"}>
-              {audioState ? "AUDIO [ON]" : "AUDIO [MUTED]"}
+            <span className={`eq-container ${audioState ? "is-active text-[#FFCC00]" : "text-white/40"}`} aria-hidden="true">
+              <span className="eq-bar" />
+              <span className="eq-bar" />
+              <span className="eq-bar" />
+            </span>
+            <span>
+              {audioState ? "AUDIO [ON]" : "AUDIO [OFF]"}
             </span>
           </button>
 

@@ -1,15 +1,18 @@
 /**
- * Synthesized Web Audio Telemetry & Mechanical Sound System
- * Zero external audio assets, 100% synthesized on client GPU/audio thread.
+ * Epikor Soundtrack & Synthesized Web Audio Telemetry System
+ * Plays the official Epikor soundtrack alongside tactical Web Audio mechanical effects.
  */
 
 let audioCtx: AudioContext | null = null;
-let soundEnabled = true;
+let soundEnabled = false;
+let soundtrackAudio: HTMLAudioElement | null = null;
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
   if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
@@ -18,6 +21,41 @@ function getAudioContext(): AudioContext | null {
     audioCtx.resume().catch(() => {});
   }
   return audioCtx;
+}
+
+function getSoundtrack(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!soundtrackAudio) {
+    soundtrackAudio = new Audio("/media/epikor_soundtrack.mp3");
+    soundtrackAudio.loop = true;
+    soundtrackAudio.volume = 0.35;
+    soundtrackAudio.preload = "metadata";
+  }
+  return soundtrackAudio;
+}
+
+export function playSoundtrack(): void {
+  const audio = getSoundtrack();
+  if (!audio) return;
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // Autoplay blocked by browser policy; will resume upon user gesture
+    });
+  }
+}
+
+export function pauseSoundtrack(): void {
+  if (soundtrackAudio) {
+    soundtrackAudio.pause();
+  }
+}
+
+/** Duck soundtrack volume when facility demo video is unmuted */
+export function duckSoundtrack(isDucked: boolean): void {
+  if (soundtrackAudio) {
+    soundtrackAudio.volume = isDucked ? 0.08 : 0.35;
+  }
 }
 
 export function isAudioEnabled(): boolean {
@@ -30,25 +68,25 @@ export function setAudioEnabled(enabled: boolean): void {
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem("z53_audio", enabled ? "1" : "0");
+      window.dispatchEvent(new CustomEvent("z53_audio_change", { detail: enabled }));
     } catch {}
+
+    if (enabled) {
+      playSoundtrack();
+      playTelemetryPing(true);
+    } else {
+      pauseSoundtrack();
+    }
   }
 }
 
 export function toggleAudio(): boolean {
-  setAudioEnabled(!soundEnabled);
-  if (soundEnabled) {
-    playTelemetryPing();
-  }
-  return soundEnabled;
+  const next = !soundEnabled;
+  setAudioEnabled(next);
+  return next;
 }
 
-// Initialize audio state from storage on client
-if (typeof window !== "undefined") {
-  try {
-    const saved = localStorage.getItem("z53_audio");
-    if (saved === "0") soundEnabled = false;
-  } catch {}
-}
+// Audio is OFF by default. Music and effects start strictly upon explicit user interaction with the audio button.
 
 /** Subtle mechanical micro-click for typing / hovering */
 export function playMechanicalClick(frequency = 1200): void {

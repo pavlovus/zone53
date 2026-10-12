@@ -35,12 +35,11 @@ export function CautionRibbons() {
     return () => observer.disconnect();
   }, []);
 
-  // Each ribbon repeats one phrase an odd number of times so that the middle repetition is a whole phrase,
-  // which lets the text be centered on a complete word group on narrow (mobile) screens.
+  // Each ribbon repeats phrase 15 times to ensure continuous coverage on ultra-wide 4K/5K displays
   const ribbonsData = [
-    { r: "0", text: Array(9).fill("UNRELEASED TECH").join(" // ") },
-    { r: "1", text: Array(9).fill("CLOSED EVENTS").join(" // ") },
-    { r: "2", text: Array(9).fill("WORLDWIDE NETWORK").join(" // ") },
+    { r: "0", text: Array(15).fill("UNRELEASED TECH").join(" // ") },
+    { r: "1", text: Array(15).fill("CLOSED EVENTS").join(" // ") },
+    { r: "2", text: Array(15).fill("WORLDWIDE NETWORK").join(" // ") },
   ];
 
   return (

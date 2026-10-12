@@ -14,7 +14,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
           leaving a peek of the content card). The image is zoomed 125% from the top so the hangar is large,
           and the ZONE 53 title is rotated 90° above the roof so it can use the full height. */}
       <div className="relative lg:hidden w-full h-[calc(100svh-9rem)] sm:h-[calc(100svh-10rem)] min-h-[26rem] overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-[125%]">
+        <div className="absolute inset-x-0 top-0 h-[125%] hero-art-enter">
           <img
             src="/media/sky-m.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
@@ -22,19 +22,20 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
             fetchPriority="high"
           />
         </div>
-        <div className="absolute inset-x-0 top-3 bottom-[42%] flex justify-center text-white/85 pointer-events-none">
+        <div className="absolute inset-x-0 top-3 bottom-[42%] flex justify-center text-white/85 pointer-events-none hero-logo-enter">
           <Zone53Logo vertical className="h-full w-auto" />
         </div>
       </div>
 
       {/* 1b. Desktop: wide artwork with the ZONE 53 wordmark baked in. Starts below the fixed navbar (h-20)
           so the wordmark is never covered by it. */}
-      <div className="hidden lg:block absolute inset-x-0 bottom-0 top-20 z-0 pointer-events-none">
+      <div className="hidden lg:block absolute inset-x-0 bottom-0 top-20 z-0 pointer-events-none hero-art-enter">
         <img
           src="/media/sky.webp"
           alt="Zone 53 Warsaw Hangar Laboratory"
           className="w-full h-auto [mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
 
@@ -44,9 +45,9 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-t border-white/15 pt-6 sm:pt-8 bg-black/70 backdrop-blur-md p-6 sm:p-8 chamfer-md">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-t border-white/15 pt-6 sm:pt-8 bg-black/70 backdrop-blur-md p-6 sm:p-8 chamfer-md hero-card-enter">
           {/* Left: Headline */}
-          <div className="lg:col-span-7 flex flex-col">
+          <div className="lg:col-span-7 flex flex-col hero-headline-enter">
             <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-9xl leading-[0.92] tracking-[0.01em] text-white m-0">
               FIRST IN THE WORLD <br />
               <span className="text-[#FFCC00]">ROBOTICS & AR LAB.</span>
@@ -56,7 +57,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
           {/* Right: Primary Actions */}
           {/* Desktop: lifted ~0.1em of the headline size so the buttons line up with the headline's bottom line
               (its text box extends a little below the visible glyph baseline). */}
-          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end lg:mb-2 xl:mb-2.5 2xl:mb-[13px]">
+          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end lg:mb-2 xl:mb-2.5 2xl:mb-[13px] hero-actions-enter">
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               <Button
                 id="hero-request-access-btn"

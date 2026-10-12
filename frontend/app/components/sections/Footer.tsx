@@ -4,7 +4,10 @@ import { playMechanicalClick } from "../../utils/audio";
 export function Footer() {
   const scrollToTop = () => {
     playMechanicalClick(1800);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   };
 
   return (
@@ -12,7 +15,7 @@ export function Footer() {
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start mb-16 pb-12 border-b border-[#222222]">
           {/* Brand Col */}
-          <div className="md:col-span-6 flex flex-col gap-4">
+          <div data-reveal className="md:col-span-6 flex flex-col gap-4">
             <div className="flex items-center">
               <img
                 src="/media/logo.webp"
@@ -29,33 +32,40 @@ export function Footer() {
           </div>
 
           {/* Links Col 1: Epikor Ecosystem */}
-          <div className="md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider">
-            <span className="text-white/40 uppercase font-bold mb-2">[FOUNDRY]</span>
+          <div data-reveal className="reveal-stagger-1 md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider">
+            <span className="text-white/60 uppercase font-bold mb-2">[FOUNDRY]</span>
             <a
               href="https://epikor.eu/"
               target="_blank"
               rel="noreferrer"
-              className="text-white/80 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1"
+              className="group text-white/80 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1.5"
             >
-              EPIKOR FOUNDRY ↗
+              <span>EPIKOR FOUNDRY</span>
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
+                ↗
+              </span>
+              <span className="sr-only"> (opens in new tab)</span>
             </a>
-            <span className="text-white/50">WARSAW HANGAR LABORATORY</span>
+            <span className="text-white/60">WARSAW HANGAR LABORATORY</span>
           </div>
 
           {/* Links Col 2: Action */}
-          <div className="md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider md:items-end">
+          <div data-reveal className="reveal-stagger-2 md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider md:items-end">
             <button
               type="button"
               onClick={scrollToTop}
-              className="px-4 py-2 bg-[#141414] hover:bg-[#1E1E1E] border border-[#333333] hover:border-[#FFCC00] text-[#FFCC00] text-[11px] tracking-widest uppercase chamfer-sm cursor-pointer transition-colors"
+              className="group px-4 py-2 bg-[#141414] hover:bg-[#1E1E1E] border border-[#333333] hover:border-[#FFCC00] text-[#FFCC00] text-[11px] tracking-widest uppercase chamfer-sm cursor-pointer transition-colors inline-flex items-center gap-1.5"
             >
-              ▲ RETURN TO APEX
+              <span className="inline-block transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
+                ▲
+              </span>
+              <span>RETURN TO APEX</span>
             </button>
           </div>
         </div>
 
         {/* Bottom Legal / Copyright */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-white/40">
+        <div data-reveal className="reveal-stagger-1 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-white/60">
           <div>
             © {new Date().getFullYear()} ZONE 53. ALL RIGHTS RESERVED. OPERATED BY EPIKOR.
           </div>
