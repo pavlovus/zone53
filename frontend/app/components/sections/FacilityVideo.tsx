@@ -60,7 +60,7 @@ export function FacilityVideo() {
         <div className="mb-10 sm:mb-14">
           <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-[0.01em] leading-[0.95] m-0">
             WARSAW HANGAR <br />
-            <span className="text-[#FFCC00]">PHYSICAL TOUR.</span>
+            <span className="text-[#FFCC00]">PROJECT DEMOS.</span>
           </h2>
         </div>
 
@@ -116,8 +116,8 @@ export function FacilityVideo() {
                 </button>
               </div>
 
-              <span className="font-mono text-xs text-white/50 tracking-wider hidden sm:inline">
-                WARSAW HANGAR // 1,200 SQM PROVING GROUNDS
+              <span className="font-mono text-[11px] sm:text-xs text-white/60 tracking-wider truncate">
+                G1-Ray Team: Javi, Ivan, Vishal, Stan
               </span>
             </div>
           </div>
