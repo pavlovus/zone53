@@ -244,7 +244,9 @@ body {
 /* ---------- LEGACY INDUSTRIAL CAUTION RIBBONS ---------- */
 .ribbon-stage {
   position: relative;
-  overflow: hidden;
+  /* Clip only horizontally: the rotated tapes must stay fully visible above/below the section box. */
+  overflow-x: clip;
+  overflow-y: visible;
   width: 100%;
 }
 
