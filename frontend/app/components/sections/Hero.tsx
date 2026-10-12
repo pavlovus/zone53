@@ -8,25 +8,26 @@ interface HeroProps {
 
 export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
   return (
-    <section className="relative min-h-screen w-full flex flex-col justify-between pt-24 sm:pt-28 pb-12 overflow-hidden bg-black">
+    <section className="relative lg:min-h-screen w-full flex flex-col justify-start lg:justify-between pt-24 sm:pt-28 pb-12 overflow-hidden bg-black">
       {/* 1. Fullscreen Sky & Warsaw Hangar Background */}
       {/* Starts below the fixed navbar (h-16 / sm:h-20) so the wordmark is never covered by it */}
       <div className="absolute inset-x-0 bottom-0 top-16 sm:top-20 z-0 pointer-events-none">
         <picture className="block h-full">
           <source media="(max-width: 640px)" srcSet="/media/sky-m.webp" type="image/webp" />
-          {/* Mobile/tablet: image ends where the content card starts. Desktop: natural ratio, fully visible. */}
+          {/* Always shown at full width and natural ratio so the ZONE 53 wordmark scales instead of being cropped */}
           <img
             src="/media/sky.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
-            className="w-full h-[calc(2rem+40vh)] sm:h-[calc(2rem+50vh)] lg:h-auto object-cover object-[center_40%] lg:object-top lg:[mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
+            className="w-full h-auto lg:[mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
             fetchPriority="high"
           />
         </picture>
       </div>
 
-      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image; on desktop the spacer scales with the
-          image height so the card starts below the hangar */}
-      <div className="flex-1 min-h-[40vh] sm:min-h-[50vh] lg:min-h-[calc(36.5vw-2rem)]" />
+      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image, so the spacer tracks the image height
+          (52.1vw = 1920:1000 ratio). Mobile/tablet: card sits below the whole image. Desktop: card may
+          overlap the foreground grass but stays below the hangar. */}
+      <div className="flex-none h-[calc(52.1vw-1rem)] lg:flex-1 lg:h-auto lg:min-h-[calc(36.5vw-2rem)]" />
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">
