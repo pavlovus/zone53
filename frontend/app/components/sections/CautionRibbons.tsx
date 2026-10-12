@@ -65,7 +65,7 @@ export function CautionRibbons() {
               isInView ? "in" : ""
             }`}
           >
-            <div className="flex items-center whitespace-nowrap overflow-hidden font-display text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight text-black">
+            <div className="flex items-center whitespace-nowrap overflow-hidden font-display text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.02em] text-black">
               <span className="inline-block px-4">
                 {item.text} // {item.text}
               </span>
