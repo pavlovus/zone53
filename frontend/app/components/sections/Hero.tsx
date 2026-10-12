@@ -1,5 +1,4 @@
 import React from "react";
-import { Zone53Logo } from "../ui/Zone53Logo";
 import { Button } from "../ui/Button";
 
 interface HeroProps {
@@ -12,12 +11,13 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
     <section className="relative min-h-screen w-full flex flex-col justify-between pt-24 sm:pt-28 pb-12 overflow-hidden bg-black">
       {/* 1. Fullscreen Sky & Warsaw Hangar Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <picture>
+        <picture className="block h-full">
           <source media="(max-width: 640px)" srcSet="/media/sky-m.webp" type="image/webp" />
+          {/* Mobile: image is capped to the upper part of the hero so the hangar stays above the content card */}
           <img
             src="/media/sky.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
-            className="w-full h-full object-cover object-[center_45%] sm:object-[center_50%] opacity-90"
+            className="w-full h-[calc(6rem+40vh)] sm:h-[calc(7rem+50vh)] lg:h-auto lg:max-h-full object-cover object-[center_25%] lg:object-top opacity-90"
             fetchPriority="high"
           />
         </picture>
@@ -26,15 +26,8 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
         <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
       </div>
 
-      {/* 2. Macro-Display ZONE 53 Vector Logo across the sky */}
-      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12 mt-4 sm:mt-8">
-        <div className="w-full max-w-6xl mx-auto">
-          <Zone53Logo className="w-full h-auto" />
-        </div>
-      </div>
-
-      {/* 3. Spacer to let the hangar in the sky breathe */}
-      <div className="flex-1 min-h-[16vh] sm:min-h-[22vh]" />
+      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image, so this keeps the hangar clear of the card */}
+      <div className="flex-1 min-h-[40vh] sm:min-h-[50vh]" />
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">
