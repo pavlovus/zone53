@@ -54,7 +54,9 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
           </div>
 
           {/* Right: Primary Actions */}
-          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end">
+          {/* Desktop: lifted ~0.1em of the headline size so the buttons line up with the headline's bottom line
+              (its text box extends a little below the visible glyph baseline). */}
+          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end lg:mb-2 xl:mb-2.5 2xl:mb-[13px]">
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               <Button
                 id="hero-request-access-btn"
