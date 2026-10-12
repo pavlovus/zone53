@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../ui/Button";
+import { Zone53Logo } from "../ui/Zone53Logo";
 
 interface HeroProps {
   onRequestAccess: () => void;
@@ -8,26 +9,38 @@ interface HeroProps {
 
 export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
   return (
-    <section className="relative lg:min-h-screen w-full flex flex-col justify-start lg:justify-between pt-24 sm:pt-28 pb-12 overflow-hidden bg-black">
-      {/* 1. Fullscreen Sky & Warsaw Hangar Background */}
-      {/* Starts below the fixed navbar (h-16 / sm:h-20) so the wordmark is never covered by it */}
-      <div className="absolute inset-x-0 bottom-0 top-16 sm:top-20 z-0 pointer-events-none">
-        <picture className="block h-full">
-          <source media="(max-width: 640px)" srcSet="/media/sky-m.webp" type="image/webp" />
-          {/* Always shown at full width and natural ratio so the ZONE 53 wordmark scales instead of being cropped */}
+    <section className="relative lg:min-h-screen w-full flex flex-col justify-start lg:justify-between pt-16 sm:pt-20 lg:pt-28 pb-12 overflow-hidden bg-black">
+      {/* 1a. Mobile/tablet: tall portrait scene filling almost the whole screen (below the fixed navbar,
+          leaving a peek of the content card). The image is zoomed 125% from the top so the hangar is large,
+          and the ZONE 53 title is rotated 90° above the roof so it can use the full height. */}
+      <div className="relative lg:hidden w-full h-[calc(100svh-9rem)] sm:h-[calc(100svh-10rem)] min-h-[26rem] overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[125%]">
           <img
-            src="/media/sky.webp"
+            src="/media/sky-m.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
-            className="w-full h-auto lg:[mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
+            className="w-full h-full object-cover object-top"
             fetchPriority="high"
           />
-        </picture>
+        </div>
+        <div className="absolute inset-x-0 top-3 bottom-[42%] flex justify-center text-white/85 pointer-events-none">
+          <Zone53Logo vertical className="h-full w-auto" />
+        </div>
       </div>
 
-      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image, so the spacer tracks the image height
-          (52.1vw = 1920:1000 ratio). Mobile/tablet: card sits below the whole image. Desktop: card may
-          overlap the foreground grass but stays below the hangar. */}
-      <div className="flex-none h-[calc(52.1vw-1rem)] lg:flex-1 lg:h-auto lg:min-h-[calc(36.5vw-2rem)]" />
+      {/* 1b. Desktop: wide artwork with the ZONE 53 wordmark baked in. Starts below the fixed navbar (h-20)
+          so the wordmark is never covered by it. */}
+      <div className="hidden lg:block absolute inset-x-0 bottom-0 top-20 z-0 pointer-events-none">
+        <img
+          src="/media/sky.webp"
+          alt="Zone 53 Warsaw Hangar Laboratory"
+          className="w-full h-auto [mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
+          loading="lazy"
+        />
+      </div>
+
+      {/* 2. Desktop spacer: tracks the image height (36.5vw ≈ hangar base of the 1920:1000 artwork) so the
+          card may overlap the foreground grass but stays below the hangar. */}
+      <div className="hidden lg:block lg:flex-1 lg:min-h-[calc(36.5vw-2rem)]" />
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">

@@ -33,7 +33,9 @@ export function Zone53Logo({
 
   return (
     <svg
-      className={`w-full h-auto aspect-[1864/590] block text-white select-none pointer-events-none drop-shadow-[0_4px_30px_rgba(255,255,255,0.2)] ${className}`}
+      className={`block select-none pointer-events-none drop-shadow-[0_4px_30px_rgba(255,255,255,0.2)] ${
+        vertical ? "aspect-[590/1864]" : "w-full h-auto aspect-[1864/590] text-white"
+      } ${className}`}
       viewBox={vertical ? verticalViewBox : horizontalViewBox}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
