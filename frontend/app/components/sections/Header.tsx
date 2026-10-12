@@ -28,19 +28,13 @@ export function Header({ onRequestAccess }: HeaderProps) {
             className="flex items-center gap-3 text-white no-underline group focus-visible:outline-none"
             aria-label="ZONE 53 — Return to Top"
           >
-            <div className="relative w-8 h-8 sm:w-10 sm:h-10 bg-black border border-[#FFCC00] flex items-center justify-center chamfer-sm">
-              <span className="font-mono text-xs sm:text-sm font-bold text-[#FFCC00]">
-                Z53
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-white group-hover:text-[#FFCC00] transition-colors">
-                ZONE 53
-              </span>
-              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-white/50 uppercase">
-                BY EPIKOR • WARSAW
-              </span>
-            </div>
+            <img
+              src="/media/logo.webp"
+              alt="ZONE 53"
+              width={256}
+              height={256}
+              className="block w-12 h-12 sm:w-14 sm:h-14 object-contain"
+            />
           </a>
         </div>
 
@@ -65,7 +59,7 @@ export function Header({ onRequestAccess }: HeaderProps) {
             onClick={onRequestAccess}
             className="text-[11px] sm:text-xs"
           >
-            REQUEST ACCESS ↗
+            BECOME A SPONSOR ↗
           </Button>
         </div>
       </div>

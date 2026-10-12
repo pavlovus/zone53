@@ -31,7 +31,7 @@ export function EpikorEcosystem() {
         {/* Narrative Banner with Epikor Badge */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16 sm:mb-20">
           <div className="lg:col-span-8">
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-tight leading-[0.9] mb-6">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-[0.01em] leading-[0.9] mb-6">
               THE HARDWARE PROVING GROUNDS <br />
               <span className="text-[#FFCC00]">POWERED BY EPIKOR.</span>
             </h2>

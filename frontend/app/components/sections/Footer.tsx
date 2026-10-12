@@ -13,13 +13,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start mb-16 pb-12 border-b border-[#222222]">
           {/* Brand Col */}
           <div className="md:col-span-6 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-black border border-[#FFCC00] flex items-center justify-center font-mono text-xs font-bold text-[#FFCC00] chamfer-sm">
-                Z53
-              </div>
-              <span className="font-mono text-base font-bold tracking-widest text-white">
-                ZONE 53
-              </span>
+            <div className="flex items-center">
+              <img
+                src="/media/logo.webp"
+                alt="ZONE 53"
+                width={256}
+                height={256}
+                className="block w-14 h-14 -ml-[5px] object-contain"
+              />
             </div>
 
             <p className="font-sans text-xs sm:text-sm text-white/70 max-w-md font-normal leading-relaxed m-0">

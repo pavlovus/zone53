@@ -306,7 +306,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 <div>
                   <h2
                     id="dossier-title"
-                    className="font-display text-2xl sm:text-3xl font-black uppercase text-white tracking-tight m-0"
+                    className="font-display text-2xl sm:text-3xl font-black uppercase text-white tracking-[0.01em] m-0"
                   >
                     CLEARANCE DOSSIER APPLICATION
                   </h2>
@@ -504,7 +504,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 <span className="font-mono text-xs text-[#FFCC00] tracking-widest uppercase">
                   /// FINAL STEP: AUTHENTICATION SEAL
                 </span>
-                <h3 className="font-display text-2xl sm:text-3xl font-black uppercase text-white m-0">
+                <h3 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-[0.01em] text-white m-0">
                   PRESS AND HOLD OR CLICK TO SEAL
                 </h3>
                 <p className="font-sans text-xs text-white/60 m-0">
@@ -589,7 +589,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 <span className="font-mono text-xs text-[#FFCC00] tracking-widest uppercase animate-pulse">
                   ENCRYPTING DOSSIER PACKET...
                 </span>
-                <h3 className="font-display text-2xl font-black uppercase text-white m-0">
+                <h3 className="font-display text-2xl font-black uppercase tracking-[0.01em] text-white m-0">
                   DISPATCHING TO PRIVATE COMMAND
                 </h3>
                 <span className="font-mono text-[11px] text-white/40 tracking-wider">
