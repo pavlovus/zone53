@@ -56,11 +56,13 @@ export function EpikorEcosystem() {
               rel="noreferrer"
               className="relative bg-[#0A0A0A]/90 border border-[#333333] hover:border-[#FFCC00] p-4 chamfer-md max-w-xs w-full flex items-center gap-4 transition-colors group no-underline"
             >
-              <img
-                src="/media/epikor_icon.jpg"
-                alt="Epikor Emblem"
-                className="w-14 h-14 object-cover chamfer-sm border border-[#FFCC00]/40 group-hover:border-[#FFCC00] transition-colors"
-              />
+              <div className="w-14 h-14 rounded-full overflow-hidden border border-[#FFCC00]/40 group-hover:border-[#FFCC00] transition-colors shrink-0 bg-black">
+                <img
+                  src="/media/epikor_icon.jpg"
+                  alt="Epikor Emblem"
+                  className="w-full h-full object-cover scale-[1.02] block"
+                />
+              </div>
               <div className="flex flex-col">
                 <span className="font-mono text-xs font-bold text-white group-hover:text-[#FFCC00] tracking-wider transition-colors">
                   POWERED BY EPIKOR ↗
