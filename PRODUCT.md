@@ -51,8 +51,8 @@ The primary conversion pathway is built with duplicated, strategic touchpoints:
 2. **The Thesis & Vision**: The visitor scrolls through the foundational AR-Robotics thesis, revealing the vision of unified robotic intelligence and the lab's skunkworks history.
 3. **The Facility & Hardware Cluster**: Exploration of the testing hangar, equipment specs (drones, robodogs, robotic manipulators, telepresence), and video showcase.
 4. **The 8 Strategic Benefits**: Direct breakdown of partner privileges (24/7 access, private events, startup communication, talent scouting, R&D consulting, GTM in EU). Secondary CTA: `BECOME A PARTNER`.
-5. **The Conversion Modal**: Clicking any CTA opens a high-contrast modal dialog accepting `name`, `email`, `phone`, `website`, mandatory `investment_amount`, and optional `comment`.
-6. **Confirmation & Telegram Alert**: On submit, client receives immediate confirmation (*"Inquiry received. We will contact you personally"*), and the team receives real-time formatted telemetry in Telegram.
+5. **The Gamified Top-Secret Clearance Dossier (Core Experience)**: Clicking any CTA initiates the declassification clearance flow. Visually framed as a classified government/military clearance file (`DOSSIER // FILE #Z53-2026-X`), the user fills out a top-secret document featuring animated official security stamps (`[CLEARANCE: PENDING]` -> `[AUTHORIZED]`), redacted declassifying text bars that unscramble in real time, interactive biometric authorization, and a multi-part clearance protocol (`PART I: OPERATIVE IDENTITY`, `PART II: STRATEGIC MANDATE`, `PART III: DIRECT TRANSMISSION`).
+6. **Seal & Transmission Telemetry**: Completing the dossier triggers a mechanical stamp imprint animation, visual/audio telemetry confirmation (*"TRANSMISSION ENCRYPTED // DISPATCHED TO SATELLITE RELAY"*), and instant delivery into the team's private Telegram command channel.
 
 ## Brand Commitments
 

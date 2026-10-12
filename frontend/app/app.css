@@ -1,15 +1,316 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+/* ==========================================================================
+   ZONE 53 — INDUSTRIAL BRUTALISM & TACTICAL TELEMETRY DESIGN SYSTEM
+   Fonts: Druk Heavy (display), HelveticaNeueCyr (prose), JetBrains Mono (telemetry)
+   Palette: Black (#000000), Carbon (#080808 / #141414), White (#FFFFFF), Epikor Yellow (#FFCC00)
+   ========================================================================== */
+
+/* ---------- TYPOGRAPHY (@font-face) ---------- */
+@font-face {
+  font-family: "Druk Hero";
+  src: url("/fonts/Druk-Heavy-subset.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("/fonts/HelveticaNeueCyr-Bold.woff2") format("woff2"),
+       url("/fonts/HelveticaNeueCyr-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("/fonts/HelveticaNeueCyr-Light.woff2") format("woff2"),
+       url("/fonts/HelveticaNeueCyr-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("/fonts/HelveticaNeueCyr-Roman.woff2") format("woff2"),
+       url("/fonts/HelveticaNeueCyr-Roman.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("/fonts/HelveticaNeueCyr-Italic.woff2") format("woff2"),
+       url("/fonts/HelveticaNeueCyr-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------- TAILWIND CSS v4 THEME TOKENS ---------- */
+@theme {
+  --font-display: "Druk Hero", "Druk Heavy", "Impact", sans-serif;
+  --font-sans: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  --color-bg-base: #000000;
+  --color-carbon-900: #060606;
+  --color-carbon-800: #0C0C0C;
+  --color-carbon-700: #141414;
+  --color-carbon-600: #1E1E1E;
+  --color-carbon-500: #2A2A2A;
+
+  --color-border-hairline: #222222;
+  --color-border-subtle: #333333;
+  --color-border-focus: #FFCC00;
+
+  --color-accent: #FFCC00;
+  --color-accent-deep: #E5B800;
+  --color-accent-glow: rgba(255, 204, 0, 0.22);
+  --color-accent-dim: rgba(255, 204, 0, 0.12);
+
+  --color-ink-primary: #FFFFFF;
+  --color-ink-secondary: #C2C2C2;
+  --color-ink-muted: #7A7A7A;
+}
+
+/* ---------- BASE RESETS & RIGIDITY ---------- */
+html {
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: #000000;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Rejection of rounded consumer pill shapes: default 0 radius */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: #FFCC00;
+  color: #000000;
+}
+
+/* Focus outline for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #FFCC00;
+  outline-offset: 3px;
+}
+
+/* ---------- TACTICAL CHAMFERED GEOMETRY (clip-path 45°) ---------- */
+.chamfer-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+.chamfer-md {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+}
+
+.chamfer-btn {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%
+  );
+}
+
+.chamfer-dossier {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 24px) 0,
+    100% 24px,
+    100% 100%,
+    24px 100%,
+    0 calc(100% - 24px)
+  );
+}
+
+/* ---------- ANALOG CRT & RETICLE DECORATIONS ---------- */
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.35) 2px,
+    rgba(0, 0, 0, 0.35) 4px
+  );
+  pointer-events: none;
+}
+
+.crosshair-corner {
+  position: relative;
+}
+.crosshair-corner::before,
+.crosshair-corner::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+.crosshair-corner::before {
+  top: 4px;
+  left: 6px;
+}
+.crosshair-corner::after {
+  bottom: 4px;
+  right: 6px;
+}
+
+/* Top-Secret Ink Stamp Animation */
+@keyframes stampImprint {
+  0% {
+    opacity: 0;
+    transform: scale(2.4) rotate(-12deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.95) rotate(-3.5deg);
+  }
+  80% {
+    transform: scale(1.03) rotate(-4.2deg);
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+  }
+}
+
+.stamp-active {
+  animation: stampImprint 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Laser scan animation for Biometric Touchpoint */
+@keyframes laserScan {
+  0% {
+    top: 0%;
+    opacity: 0.2;
+  }
+  50% {
+    top: 96%;
+    opacity: 1;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.2;
+  }
+}
+
+.laser-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #FFCC00;
+  box-shadow: 0 0 10px #FFCC00, 0 0 20px rgba(255, 204, 0, 0.8);
+  animation: laserScan 1.8s ease-in-out infinite;
+}
+
+/* ---------- LEGACY INDUSTRIAL CAUTION RIBBONS ---------- */
+.ribbon-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.legacy-ribbon {
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  padding: 0;
+  will-change: transform;
+  transition: transform 0.68s cubic-bezier(0.22, 0.7, 0.25, 1);
+  background: #FFCC00;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.legacy-ribbon > span,
+.legacy-ribbon span {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.95;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.legacy-ribbon[data-r="0"] {
+  transform: rotate(-9.74deg) translate(3340px, 0);
+}
+.legacy-ribbon[data-r="0"].in {
+  transform: rotate(-9.74deg) translate(40px, 0);
+}
+
+.legacy-ribbon[data-r="1"] {
+  transform: rotate(2.28deg) translate(-3670px, 0);
+  transition-delay: 0.12s;
+}
+.legacy-ribbon[data-r="1"].in {
+  transform: rotate(2.28deg) translate(30px, 0);
+}
+
+.legacy-ribbon[data-r="2"] {
+  transform: rotate(-4.2deg) translate(3460px, 0);
+  transition-delay: 0.24s;
+}
+.legacy-ribbon[data-r="2"].in {
+  transform: rotate(-4.2deg) translate(60px, 0);
+}
+
+@media (max-width: 640px) {
+  .legacy-ribbon[data-r="0"] { transform: rotate(-9.74deg) translate(2000px, 0); }
+  .legacy-ribbon[data-r="0"].in { transform: rotate(-9.74deg) translate(15px, 0); }
+  .legacy-ribbon[data-r="1"] { transform: rotate(2.28deg) translate(-2000px, 0); }
+  .legacy-ribbon[data-r="1"].in { transform: rotate(2.28deg) translate(0, 0); }
+  .legacy-ribbon[data-r="2"] { transform: rotate(-4.2deg) translate(2000px, 0); }
+  .legacy-ribbon[data-r="2"].in { transform: rotate(-4.2deg) translate(15px, 0); }
+}
+
+/* Reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .stamp-active {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: rotate(-4deg) !important;
   }
 }

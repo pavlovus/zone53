@@ -163,10 +163,22 @@ Typography is the structural skeleton of the entire site. We establish a three-t
 * Header carries monospace unit tag (`[UNIT-01]`, `[PERK-08]`).
 * Subtle amber/yellow hover hairline transition (`border-white/20 -> border-[#FFCC00]/60`).
 
-### 7.3 Modal Dialog
-* Centered HUD-framed container with high-density technical inputs.
-* Backdrop: `#000000` with 85% opacity and subtle film noise.
-* Form inputs: Pure black background `#000000`, 1px border `#333333`, focused with `#FFCC00` border glow.
+### 7.3 Classified Dossier Clearance Flow (Top-Secret Document Interface)
+* **Archetype**: A classified military aerospace clearance file (`DOSSIER // FILE #Z53-2026-X`) framed in an authentic carbon/manila-dossier container with crosshair corners (`+`) and technical classification labels (`[CLASSIFICATION: TOP SECRET // DECLASSIFIED COHORT 2026]`).
+* **Visual Layering & Watermarks**:
+  * Backdrop: `#000000` with 92% opacity, subtle CRT scanlines, and an authentic film-grain noise texture.
+  * Document watermark: Faint diagonal repeating vector stamp `[ZONE 53 // CLASSIFIED ACCESS // EYES ONLY]` at 4% white opacity.
+  * Redacted Text Decode: Labels and instructional headers begin behind blacked-out redacted rectangles (`████████`), which unscramble and decode with a cybernetic teleprinter effect as the document opens or sections activate.
+* **Interactive Gamified Mechanics**:
+  * **Real-time Clearance Level Meter**: Monospace progress gauge (`CLEARANCE PROGRESS: [▓▓▓░░░░░░░] 35% // STAGE: IDENTITY CONFIRMATION`).
+  * **Mechanical Stamps**: Animated ink stamps with angle jitter:
+    * Initial state: Slanted red/yellow box `[PENDING AUTHORIZATION]` (`transform: rotate(-4deg)`).
+    * Submitting state: `[DECRYPTING TRANSMISSION...]`.
+    * Success state: High-impact stamped imprint `[ACCESS AUTHORIZED // DISPATCHED]` (`transform: rotate(-2deg)`).
+  * **Biometric / Physical Authorization Touchpoint**: An interactive press-and-hold thumbprint or digital cipher key switch to finalize and seal the dossier before satellite dispatch.
+  * **Input Fields**: Monospace typed style (`JetBrains Mono`), typewriter cursor blink (`▋`), 1px hairlines, and laser-yellow focus reticle (`border-color: #FFCC00; box-shadow: 0 0 12px rgba(255, 204, 0, 0.25)`).
+* **Audio-Tactile Feedback**:
+  * Lightweight Web Audio API synthesized mechanical relay clicks on keystroke/step changes, and a low-frequency hydraulic seal chime on transmission (with global HUD mute toggle).
 
 ---
 
