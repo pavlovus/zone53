@@ -37,9 +37,24 @@ export default function Home() {
   const closeDossier = () => setIsDossierOpen(false);
 
   const scrollToFacility = () => {
-    const el = document.getElementById("facility-recon");
+    const el =
+      document.getElementById("facility-video-frame") ||
+      document.getElementById("facility-demo-video");
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      const rect = el.getBoundingClientRect();
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.offsetHeight : window.innerWidth >= 640 ? 80 : 64;
+      const visibleCenter = headerHeight + (window.innerHeight - headerHeight) / 2;
+      const elementCenter = rect.top + rect.height / 2;
+      const targetScrollY = window.scrollY + elementCenter - visibleCenter;
+
+      window.scrollTo({
+        top: Math.max(0, targetScrollY),
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+    } else {
+      const fallback = document.getElementById("facility-recon");
+      if (fallback) fallback.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
 

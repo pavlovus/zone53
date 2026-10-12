@@ -65,12 +65,13 @@ export function FacilityVideo() {
         </div>
 
         {/* Video Player Container */}
-        <div className="relative w-full max-w-6xl mx-auto mb-16 sm:mb-20">
+        <div id="facility-video-frame" className="relative w-full max-w-6xl mx-auto mb-16 sm:mb-20">
           <div className="relative bg-[#080808] border border-[#333333] chamfer-md overflow-hidden group">
             {/* Video Element */}
             <div className="relative aspect-[16/9] w-full bg-black cursor-pointer" onClick={togglePlay}>
               <video
                 ref={videoRef}
+                id="facility-demo-video"
                 src="/media/video.MP4"
                 loop
                 autoPlay

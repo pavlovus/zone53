@@ -215,30 +215,176 @@ body {
   animation: stampImprint 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Laser scan animation for Biometric Touchpoint */
-@keyframes laserScan {
+/* =========================================================
+   TOP SECRET DOSSIER MODAL — CINEMATIC CHOREOGRAPHY
+   ========================================================= */
+
+@keyframes backdropDarken {
   0% {
-    top: 0%;
-    opacity: 0.2;
+    opacity: 0;
   }
-  50% {
-    top: 96%;
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes backdropLighten {
+  0% {
     opacity: 1;
   }
   100% {
-    top: 0%;
+    opacity: 0;
+  }
+}
+
+@keyframes dossierWindowEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dossierWindowExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateY(16px);
+  }
+}
+
+/* Backdrop overlay - static blur with pure GPU opacity composite */
+.dossier-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow-y: auto;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  will-change: opacity;
+}
+
+.dossier-backdrop.is-open {
+  animation: backdropDarken 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+}
+
+.dossier-backdrop.is-closing {
+  animation: backdropLighten 0.38s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* Dossier Window Card - arrives onto an already-darkened background */
+.dossier-window {
+  will-change: transform, opacity;
+}
+
+.dossier-window.is-open {
+  animation: dossierWindowEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+.dossier-window.is-closing {
+  animation: dossierWindowExit 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* Step-to-step micro-transition */
+@keyframes stepEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.step-fade-in {
+  animation: stepEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered Inner Elements Cascade Animation */
+@keyframes cascadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cascade-in {
+  opacity: 0;
+  animation: cascadeIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.cascade-delay-1 { animation-delay: 240ms; }
+.cascade-delay-2 { animation-delay: 290ms; }
+.cascade-delay-3 { animation-delay: 340ms; }
+.cascade-delay-4 { animation-delay: 390ms; }
+.cascade-delay-5 { animation-delay: 440ms; }
+.cascade-delay-6 { animation-delay: 490ms; }
+.cascade-delay-7 { animation-delay: 540ms; }
+.cascade-delay-8 { animation-delay: 590ms; }
+
+/* Accessibility: respect user prefers-reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .dossier-backdrop.is-open,
+  .dossier-backdrop.is-closing,
+  .dossier-window.is-open,
+  .dossier-window.is-closing,
+  .cascade-in,
+  .step-fade-in,
+  .stamp-active,
+  .laser-line {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hardware-accelerated laser scan for Biometric Touchpoint */
+@keyframes laserScan {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(var(--scan-distance, 138px));
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
     opacity: 0.2;
   }
 }
 
 .laser-line {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   height: 2px;
   background: #FFCC00;
   box-shadow: 0 0 10px #FFCC00, 0 0 20px rgba(255, 204, 0, 0.8);
-  animation: laserScan 1.8s ease-in-out infinite;
+  will-change: transform;
+  animation: laserScan 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 /* ---------- LEGACY INDUSTRIAL CAUTION RIBBONS ---------- */
