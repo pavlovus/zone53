@@ -58,7 +58,7 @@ export function FacilityVideo() {
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
         <div className="mb-10 sm:mb-14">
-          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-tight leading-[0.95] m-0">
+          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-[0.01em] leading-[0.95] m-0">
             WARSAW HANGAR <br />
             <span className="text-[#FFCC00]">PHYSICAL TOUR.</span>
           </h2>

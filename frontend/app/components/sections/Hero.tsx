@@ -47,7 +47,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-t border-white/15 pt-6 sm:pt-8 bg-black/70 backdrop-blur-md p-6 sm:p-8 chamfer-md">
           {/* Left: Headline and Description */}
           <div className="lg:col-span-7 flex flex-col gap-3 sm:gap-4">
-            <h1 className="font-display uppercase text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.92] tracking-tight text-white m-0">
+            <h1 className="font-display uppercase text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.92] tracking-[0.01em] text-white m-0">
               FIRST IN THE WORLD <br />
               <span className="text-[#FFCC00]">ROBOTICS & AR LAB.</span>
             </h1>

@@ -58,7 +58,7 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Title */}
         <div className="max-w-4xl mb-12 sm:mb-16">
-          <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase text-white tracking-tight leading-[0.9] mb-6">
+          <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase text-white tracking-[0.01em] leading-[0.9] mb-6">
             JOIN THE FUTURE <br />
             <span className="text-[#FFCC00]">WHEN IT'S STILL CLASSIFIED.</span>
           </h2>
