@@ -1,0 +1,857 @@
+/* ZONE 53 — sections 1-2 · vanilla CSS
+   Desktop design space 1921×1000, width-fit scale k=vw/1921 (≥600px).
+   UI text is viewport-anchored (sticks to edges regardless of window height).
+   Mobile (≤600px): dedicated 370×700 composition per mob-1-1 / mob-2-2. */
+@font-face {
+  font-family: "Druk Hero";
+  src: url("assets/fonts/Druk-Heavy-subset.woff2?v=7") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("assets/fonts/HelveticaNeueCyr-Bold.woff2?v=1") format("woff2"),
+       url("assets/fonts/HelveticaNeueCyr-Bold.ttf?v=1") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("assets/fonts/HelveticaNeueCyr-Light.woff2?v=1") format("woff2"),
+       url("assets/fonts/HelveticaNeueCyr-Light.ttf?v=1") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("assets/fonts/HelveticaNeueCyr-Roman.woff2?v=1") format("woff2"),
+       url("assets/fonts/HelveticaNeueCyr-Roman.ttf?v=1") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaNeueCyr";
+  src: url("assets/fonts/HelveticaNeueCyr-Italic.woff2?v=1") format("woff2"),
+       url("assets/fonts/HelveticaNeueCyr-Italic.ttf?v=1") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+/* NOTE: project display font — HelveticaNeueCyr (Bold 700 / Roman 400),
+   files in assets/fonts (in/HelveticaNeue/ — sources). */
+
+:root {
+  --k: 1;            /* desktop stage scale, set by JS */
+  --k2: 1;           /* mobile stage scale, set by JS */
+  --k4: 1;           /* s4 full-fit desktop scale, set by JS */
+  /* camera transform vars (--cam-sky/house, --cam-ox/oy, --cam-dy, --m-cam-*)
+     are now driven by direct element.style in JS — bypasses per-frame
+     CSS-variable cascade and full-tree style recalculation. */
+  --ui-o: 1;         /* hero UI opacity */
+  --z53-o: 1;        /* ZONE 53 opacity */
+  --black: 0;        /* blackout opacity */
+  --c2-zoom: 1;      /* collapse photo zoom: INT_ZOOM → 1 (fit width at finish) */
+  /* redesign 10.2026 · collapse trigger + native page */
+  --c2-p: 0;         /* collapse progress 0..1 (photo height between the headlines) */
+  --h1h: 211px;      /* measured headline-1 height (JS refits) */
+  --h2h: 211px;      /* measured headline-2 height (JS refits) */
+  --gapT: 20px;      /* photo<->H1 gap (desktop); mobile 14px */
+  --gapB: 20px;      /* photo<->H2 gap (desktop); mobile 14px */
+  --h2-o: 0;
+  --spot-o: 0;       /* blackout gradient spot opacity */
+  --spot-s: 0.7;     /* blackout gradient spot scale */
+  --ink: #fff;
+  --accent: #ffcc01;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: #000;
+  color: var(--ink);
+  overflow: hidden;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 50;
+  padding: 10px 16px;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus-visible { top: 12px; }
+:focus-visible { outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 5px #000; }
+
+.viewport { position: fixed; inset: 0; overflow: hidden; background: #000; }
+/* first-load anti-flash: hero hidden until first applyFrame (data-phase) —
+   otherwise pre-deferred-JS shows desktop stage scale(1) + empty webp boxes */
+.viewport:not([data-phase]) .scene--one { visibility: hidden; }
+.scene { position: absolute; inset: 0; }
+.scene--collapse { visibility: hidden; }
+.viewport[data-phase="two"] .scene--collapse { visibility: visible; }
+/* scene--one stays rendered (not visibility:hidden) so GPU textures stay warm;
+   prevents re-allocation spike on reverse animation (Chrome mobile).
+   Blackout (opacity:1) + scene--collapse above it occlude scene--one visually. */
+.viewport[data-phase="two"] .scene--one { opacity: 0; pointer-events: none; }
+
+/* ---------- redesign 10.2026: locked vs native page flow ----------
+   Locked: fixed viewport, collapse trigger plays inside .scene--collapse.
+   body.native (added by JS when the collapse finishes): the lock releases,
+   the collapse block becomes a normal 100dvh section, and the content page
+   plus ribbons flow natively. hero is spent at that point, so it leaves flow. */
+.s2c, .s3 { display: none; }
+body.native { overflow-y: auto; height: auto; }
+body.native .viewport { position: static; overflow: visible; }
+body.native .scene--one { display: none; }
+body.native .scene--collapse { position: relative; inset: auto; height: var(--c2vh, 100dvh); }
+body.native .s2c { display: block; } /* relative from base .s2c: stage anchors to the section */
+body.native .s3 { display: block; } /* relative from base .s3: stage anchors to the section */
+
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1921px;
+  height: 1000px;
+  transform: translate(-50%, -50%) scale(var(--k));
+  transform-origin: center center;
+}
+
+/* ---------- one camera: sky and house share the same transform ----------
+   Transform + transform-origin are set directly by JS (element.style) to
+   bypass CSS-variable cascade — no per-frame style recalc on :root.
+   Mobile sky is tamed to 5.2x while the house keeps 10.9x; desktop keeps the
+   shared 10.9x (a desktop 7x trial slid the cutout off its baked-in ground
+   contact — reverted). CSS values below are pre-JS defaults. */
+.camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 959px 632px;
+  will-change: transform;
+}
+.camera--sky { transform: scale(1); }
+.camera--house { transform: scale(1); }
+.layer { position: absolute; inset: 0; }
+.layer--sky { overflow: visible; } /* full-height sky must overflow the 1000px stage, never crop */
+/* full-raster sky: 2400x1333 at 1921 wide -> ~1067 tall (R1: side crop to 2400,
+   -100px bottom; horizon row untouched, top-anchored).
+   top:-9px pins the photo tree-line under the cutout house (base 671.5).
+   Extra foreground overflows below the stage and shows on taller windows. */
+.sky { position: absolute; left: 0; top: -9px; width: 1921px; height: auto; aspect-ratio: 2400 / 1333; object-fit: fill; display: block; }
+
+/* house cutout: base sits on the horizon (solved against back-2k baked-in house 744–912px) */
+.house { position: absolute; left: 827.0px; top: 531.5px; width: 266.3px; height: 129.0px; }
+.house__img { display: block; width: 100%; height: 100%; }
+/* GPU compositor hints: own layer in Firefox, stable raster across camera scale */
+.sky, .house__img, .m-sky { backface-visibility: hidden; }
+
+/* soft veil over the upper windows so they don't ring against the new sky */
+/* soft veil over the upper windows — flat overlay (no backdrop/filter blur:
+   blur inside the 10.9x camera forced a backdrop resample every RAF) */
+.house__shade {
+  position: absolute; left: 11%; top: 32%; width: 13%; height: 13%;
+  background: rgba(8, 12, 18, 0.22);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* warm bloom over the door (mockup: 268×140 at 826,552, overflows the box) */
+.glow { position: absolute; left: -3%; top: 2%; width: 105%; height: 113%; background: radial-gradient(ellipse 55% 40% at 50% 50%, rgba(255, 211, 53, 0.85) 0%, rgba(255, 211, 53, 0) 70%); mix-blend-mode: soft-light; pointer-events: none; }
+
+/* ---------- ZONE 53 : live text, 2 overlay layers (core + outline) ---------- */
+.zone53 {
+  position: absolute;
+  left: 57px; /* center unchanged (957.1), half-width 900 */
+  top: 49px; /* 29 + 20 down */
+  width: 1800px;
+  height: 580.5px; /* proportion x(1800/1860.2) */
+  margin: 0;
+  opacity: var(--z53-o);
+  pointer-events: none;
+  user-select: none;
+}
+.z53-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.z53-layer--core path { fill-opacity: 0.86; }
+.z53-layer--halo { filter: blur(3px); }
+.z53-layer--halo path { fill-opacity: 0.55; }
+.z53-layer--outline path { fill-opacity: 0.80; }
+
+/* ---------- vignettes (screen-space, do not zoom) ----------
+   NO mix-blend-mode anywhere: multiply over a pure-black gradient and screen over a
+   pure-white one are mathematically identical to plain alpha compositing (verified:
+   0 of 80000 px differ by >1). The blend modes only bought a full-screen composite
+   pass on every frame. glow (soft-light) and ZONE53 (overlay) are real effects and
+   keep theirs. */
+.vignette { position: absolute; pointer-events: none; }
+.vignette--left {
+  left: calc((100vw - 1921px * var(--k)) / 2 - 307.56px * var(--k));
+  bottom: calc(-496.01px * var(--k));
+  width: calc(1391.879px * var(--k));
+  height: calc(1157.072px * var(--k));
+  display: flex; align-items: center; justify-content: center;
+}
+.vignette__in { flex: none; width: 1279.88px; height: 574.625px;   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #000); opacity: 0.88; }
+.vignette--left .vignette__in { width: calc(1279.88px * var(--k)); height: calc(574.625px * var(--k)); }
+.vignette__in--rotated { transform: rotate(31.38deg); }
+.vignette--sky { left: 0; top: -9px; width: 1921px; height: 647px; display: flex; align-items: center; justify-content: center; }
+.vignette--sky .vignette__in { width: 1921px; height: 647px; transform: rotate(180deg); background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff); opacity: 0.18; }
+.vignette--footer {
+  left: 0; right: 0; bottom: 0; height: calc(360px * var(--k));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+  opacity: 0.88;
+}
+
+/* ---------- blackout gradient spot (mockup 1-3 -> 1-4: grows out of transparency) ----------
+   soft dome: 30% core -> 90% feather, +20% box, centre kept at (956.5, 462.5)
+   NO mix-blend-mode: multiply with pure black is mathematically identical to plain
+   alpha compositing (verified 0/80000 px differ), but forced a full-screen blend
+   pass every RAF exactly at the end of the flight — the lag hotspot. */
+.spot {
+  position: absolute;
+  left: -95.5px;
+  top: -547.5px;
+  width: 2104px;
+  height: 2020px;
+  background: radial-gradient(circle closest-side, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 90%);
+  opacity: var(--spot-o);
+  transform: scale(var(--spot-s));
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+/* black dome: multiply is a no-op here, plain alpha compositing is identical */
+.m-spot {
+  position: absolute;
+  left: -9px;
+  top: 251.5px;
+  width: 404px;
+  height: 389px;
+  background: radial-gradient(circle closest-side, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 90%);
+  opacity: var(--spot-o);
+  transform: scale(var(--spot-s));
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ---------- hero UI : pinned to the viewport bottom ---------- */
+.hero-ui {
+  position: absolute;
+  left: calc((100vw - 1921px * var(--k)) / 2 + 60px * var(--k));
+  bottom: calc(60px * var(--k));
+  width: 449.4px;
+  transform: scale(var(--k));
+  transform-origin: bottom left;
+  opacity: var(--ui-o);
+}
+.hero-ui__text {
+  margin: 0 0 30px 0;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #fff; font-size: 50px; line-height: 50.52px; letter-spacing: -1px;
+}
+.hero-ui__btn {
+  width: 280px; height: 74px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid #000;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000; font-size: 26px; font-weight: 700; line-height: 1; letter-spacing: -1.3px;
+  padding: 0; /* HelveticaNeueCyr Bold: no compensation, centered by geometry */
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+.hero-ui__btn:hover { background: var(--accent); }
+
+/* ---------- redesign 10.2026 · section 2A: collapse block ----------
+   Locked phase: .c2 fills the viewport, the interior photo is full-screen at
+   --c2-p=0. The second trigger drives --c2-p 0→1 (JS, RAF).
+   Final state = Figma negative gap (-4px boxes) rendered at glyph level:
+   line boxes carry ~0.2em of descender air below the baseline, so the photo
+   edges are anchored 24 design-px into the boxes to graze the glyphs exactly
+   as in the mockup: top = H1h-24 (photo overlaps H1's feet), height fills down
+   to 100dvh-H2h+24 (H2 overlaps photo's feet).
+   - photo: top = H1h-24, height fills down to 100dvh-H2h+24;
+   - H1: viewport-top-anchored, sits UNDER the photo (revealed as the photo
+      slides down = "slides out from under the photo"); width/offset via the section-wide
+     --k design scale (1921 stage);
+   - H2: rises from below the window, final = viewport-bottom-anchored, above
+     the photo by 4px. Window height changes re-fit the photo height (fill);
+     window width changes scale everything through --k, like every section. */
+.c2 { position: absolute; inset: 0; overflow: hidden; background: #000; }
+.c2__photo {
+  position: absolute;
+  left: 0; right: 0;
+  z-index: 2; /* above H1: photo covers the bottom of H1 glyphs */
+  top: calc((var(--h1h) + var(--gapT)) * var(--c2-p));
+  height: calc(var(--c2vh, 100dvh) - (var(--h1h) + var(--h2h) + var(--gapT) + var(--gapB)) * var(--c2-p));
+  overflow: hidden;
+}
+.c2__img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: 50% 55%;
+  transform: scale(var(--c2-zoom));
+  transform-origin: 50% 55%;
+  will-change: transform;
+}
+/* veil removed after blackout (10.2026) — interior runs clean */
+.c2__dark { display: none !important; }
+.c2__top, .c2__bottom {
+  position: absolute;
+  margin: 0;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  text-box-trim: trim-both; /* glyph-level box, like leading-trim in Figma: anchors exact everywhere */
+  text-box-edge: cap alphabetic;
+}
+.c2__top {
+  z-index: 1;
+  top: 0;
+  padding-top: 20px; /* top air for Safari (collapses the line top gap); included in --h1h itself */
+  left: calc((100vw - 1921px * var(--k)) / 2 + 50px * var(--k));
+  width: 1661px;
+  transform: scale(var(--k));
+  transform-origin: top left;
+  color: #e3e3e3; font-size: 120px; line-height: 0.88;
+}
+.c2__bottom {
+  z-index: 3;
+  left: calc((100vw - 1921px * var(--k)) / 2 + 484px * var(--k));
+  width: 1437px;
+  transform: scale(var(--k));
+  transform-origin: top left;
+  top: calc(var(--c2vh, 100dvh) - var(--h2h) * var(--c2-p));
+  padding-bottom: 20px; /* mirror of H1 top padding (c2__top padding-top:20px): keeps glyphs off the viewport edge; included in --h2h via live measurement, photo formulas untouched */
+  opacity: var(--h2-o);
+  color: var(--accent); font-size: 120px; line-height: 0.88;
+}
+
+/* ---------- mobile scene (370×700 per mob-1-1 / mob-2-2) ---------- */
+.m-stage, .m-shadow, .m-hero { display: none; }
+.viewport[data-mode="mobile"] .stage,
+.viewport[data-mode="mobile"] .hero-ui,
+.viewport[data-mode="mobile"] .vignette--left,
+.viewport[data-mode="mobile"] .vignette--footer { display: none; }
+.viewport[data-mode="mobile"] .m-stage,
+.viewport[data-mode="mobile"] .m-shadow,
+.viewport[data-mode="mobile"] .m-hero { display: block; }
+
+.m-stage {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 370px;
+  height: 700px;
+  transform: translateX(-50%) scale(var(--k2));
+  transform-origin: top center;
+}
+.m-camera { position: absolute; inset: 0; transform-origin: 185px 388px; will-change: transform; }
+/* JS sets transform directly; CSS defaults at scale(1) for pre-JS state */
+.m-camera--sky { transform: scale(1); }
+.m-camera--house { transform: scale(1); }
+/* mobile sky: sky-m 942x1433 (center strip, full height) cover into 370x700.
+   center keeps the baked-in house behind the cutout (base 415, tree-line ~397). */
+.m-sky { width: 370px; height: 700px; object-fit: cover; object-position: center; display: block; }
+.m-house { position: absolute; left: 102.7px; top: 331.6px; width: 164.1px; height: auto; }
+.m-house img { display: block; width: 100%; height: auto; }
+.m-glow {
+  position: absolute;
+  left: -15%;
+  top: -22%;
+  width: 130%;
+  height: 145%;
+  background: radial-gradient(ellipse 55% 40% at 50% 50%, rgba(255, 211, 53, 0.85) 0%, rgba(255, 211, 53, 0) 70%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+.m-zone53 {
+  position: absolute;
+  left: 129px;
+  top: 8px;
+  width: 115px;
+  height: 362px;
+  margin: 0;
+  opacity: var(--z53-o);
+  pointer-events: none;
+  user-select: none;
+  /* no rotation here: rotation baked into SVG (g rotate 90),
+     otherwise CSS transform isolates mix-blend-mode from the sky and effects break */
+}
+.m-zone53 svg { display: block; width: 100%; height: 100%; }
+/* 1:1 like desktop: same 18 paths and their opacity/blur, only rotated. No separate opacities. */
+.m-shadow {
+  position: absolute; left: 50%; bottom: 0; width: 755px; height: 325px;
+  transform: translateX(-50%) scale(var(--k2));
+  transform-origin: bottom center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #000);
+  opacity: 0.88;
+  pointer-events: none;
+}
+.m-hero {
+  position: absolute; left: 50%; bottom: 0; width: 370px; height: 144px;
+  transform: translateX(-50%) scale(var(--k2));
+  transform-origin: bottom center;
+  opacity: var(--ui-o);
+}
+.m-hero__text {
+  position: absolute; left: 23px; top: 0; width: 265px; margin: 0;
+  font-weight: 400;
+  color: #fff; font-size: 26px; line-height: 26.27px; letter-spacing: -0.52px;
+}
+.m-hero__btn {
+  position: absolute; left: 23px; top: 66px; width: 182px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #000;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000; font-size: 16px; font-weight: 700; line-height: 1; letter-spacing: -0.8px;
+  padding: 0; /* like desktop: no compensation */
+  text-align: center;
+  cursor: pointer;
+}
+.m-hero__btn:hover { background: var(--accent); }
+
+/* ---------- redesign 10.2026 · section 2: content page (native flow) ----------
+   Figma Desktop-section-2 (frames 142/141/138/139/140 + video), coordinates from
+   the 1920-wide design. Right-shifted text column (x=484), big HelveticaNeueCyr statement
+   full width, video 1282×811 with play accent. */
+.s2c { position: relative; background: #000; color: #fff; overflow: hidden; }
+/* 1921 design stage: all content in fixed design px, --k scale like
+   all sections (.s2c height set by JS = stage height x k, like s4) */
+.s2c__scale {
+  position: absolute;
+  left: 50%; top: 0;
+  width: 1921px;
+  transform: translateX(-50%) scale(var(--k));
+  transform-origin: top center;
+}
+.s2c__inner { padding: 30px 0 0; } /* H2->lead 50-20: compensation for mirrored H2 padding-bottom */
+/* figures block removed 10.2026: Figma strip reuses the same interior (duplicate) */
+.s2c__texts { display: grid; gap: 100px; margin: 0 0 20px; /* text3->video per mockup: 20px */ }
+.s2c__lead, .s2c__text {
+  margin: 0 0 0 484px; width: 631px;
+  color: #C2C2C2;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400; font-size: 34px; line-height: 1.1; letter-spacing: 0;
+}
+.s2c__big {
+  margin: 140px 0 140px 50px; /* lead->big and big->text3 per mockup: 100 gap + 140 = 240 */
+  width: 1583px;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400; /* per mockup: regular (not Bold) -> Roman */
+  font-synthesis: none; /* no faux-bold: our Roman only */
+  color: #e3e3e3; font-size: 100px; line-height: 0.92; letter-spacing: -0.02em;
+}
+.s2c__big .y { color: var(--accent); font-style: italic; } /* real Italic file, not faux */
+.video { margin: 0 0 20px; }
+.video__frame {
+  position: relative;
+  margin-left: 484px;
+  width: 1282px;
+  aspect-ratio: 1282 / 811;
+  background: #000;
+  overflow: hidden;
+}
+.video__frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.video__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.video__play {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 135px; height: 135px;
+  transform: translate(-50%, -50%);
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.video__play svg { display: block; width: 100%; height: 100%; }
+.video--playing .video__poster, .video--playing .video__play { display: none; }
+
+/* ---------- redesign 10.2026 · section 3: scroll-driven ribbons ----------
+   Geometry restored from the pre-redesign stage (Figma 1920×1000 box:
+   left/top/width/height/tilts/parks) — it was correct there. Difference:
+   instead of one timeline flight, each ribbon flies in on its own when it
+   has FULLY entered the viewport (deterministic scroll checks ribbonsCheck): the
+   .in class swaps the parked transform for the landed one, the transition
+   + per-ribbon delay produce the stagger on a fast scroll.
+   Flight is strictly along the tilt: translate() AFTER rotate() moves along
+   the ribbon's local X axis. Section height = stage height × --k (flow). */
+.s3 {
+  position: relative;
+  background: #000;
+  height: calc(1110px * var(--k)); /* black gap before s4 ~208 (/2 of 415) */
+  overflow: hidden; /* parked ribbons live outside: never peek */
+}
+.s3__stage {
+  position: absolute;
+  left: 50%;
+  top: calc(50px * var(--k)); /* -50px down: first ribbon top edge not clipped */
+  width: 1921px;
+  height: 1000px;
+  transform: translateX(-50%) scale(var(--k));
+  transform-origin: top center;
+}
+.ribbon {
+  position: absolute;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  pointer-events: none;
+  padding: 0;
+  will-change: transform;
+  transition: transform 0.68s cubic-bezier(0.22, 0.7, 0.25, 1);
+}
+.ribbon > span {
+  font-family: "Druk Hero", "Arial Black", sans-serif;
+  font-weight: 900;
+  font-size: 210px;
+  line-height: 0.952;
+  letter-spacing: 0;
+  color: #000;
+  white-space: nowrap;
+  padding-left: 0;
+  transform: translateY(4px); /* +4 down from 0 (ribbons lower, 10.2026) */
+}
+.ribbon[data-r="1"] > span { padding-left: 30px; }
+.ribbon[data-r="0"] {
+  left: -1042px;
+  top: 159.5px;
+  width: 3950px;
+  height: 235px;
+  transform: rotate(-9.74deg) translate(3340px, 0);
+}
+.ribbon[data-r="1"] {
+  left: -44px;
+  top: 503.5px;
+  width: 3490px;
+  height: 235px;
+  transform: rotate(2.28deg) translate(-3670px, 0);
+  transition-delay: 0.12s;
+}
+.ribbon[data-r="2"] {
+  left: -1210px;
+  top: 739.5px;
+  width: 3180px;
+  height: 235px;
+  transform: rotate(-4.2deg) translate(3460px, 0);
+  transition-delay: 0.24s;
+}
+.ribbon[data-r="0"].in { transform: rotate(-9.74deg) translate(40px, 0); }
+.ribbon[data-r="1"].in { transform: rotate(2.28deg) translate(30px, 0); }
+.ribbon[data-r="2"].in { transform: rotate(-4.2deg) translate(60px, 0); }
+
+/* ---------- blackout ---------- */
+.blackout { position: absolute; inset: 0; background: #000; opacity: var(--black); pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon { transition: none; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  .s4, .s4-pop, .s4-pop__item, .s4-pop__mini, .s4-card[data-card], .s4-card__btn { transition: none !important; }
+}
+
+/* ============ SECTION 4 · sponsor panel ============
+   Fixed sheet over the viewport: opens at the bottom of the ribbons section / SPONSOR,
+   slides back on scroll-up at its own top. Own scroll: overflow-y:auto.
+   Desktop: 1920 design, 1820 content, padding 50/50/60. Mobile: 370/311. */
+.sr {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.s4 {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  background: #000;
+  color: #fff;
+  overflow-y: auto; /* fallback native scroll only if content taller than viewport; fits — no bars */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  transform: translateY(102%);
+  visibility: hidden;
+  transition: transform 0.55s ease-out, visibility 0s linear 0.55s;
+  z-index: 30;
+}
+body.s4open .s4 {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.55s ease-out;
+}
+/* redesign 10.2026 · s4 as a regular in-flow section (no fly-out animation):
+   visible via normal scroll at the document end. Height = content x k4 (set by JS).
+   Overlay mode — SPONSOR button only: body.s4force restores fixed
+   + slide-in with the current animation. */
+body.native .s4 {
+  position: relative; /* static not allowed: absolute stage needs an anchor (otherwise ICB -> content over collapse) */
+  inset: auto;
+  transform: none;
+  visibility: visible;
+  overflow: hidden; /* stage does not overflow above the section */
+  overscroll-behavior: auto; /* wheel goes to document scroll (contain would swallow it) */
+  margin: calc(120px * var(--k)) 0 0;
+  transition: none;
+}
+body.native.s4force .s4 {
+  position: fixed;
+  inset: 0;
+  transform: translateY(102%);
+  visibility: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  transition: transform 0.55s ease-out, visibility 0s linear 0.55s;
+}
+body.native.s4force.s4open .s4 {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.55s ease-out;
+}
+/* content blocks entrance: fade + 40px rise, 0.8s ease-out, one-way */
+.rv { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.22, 0.7, 0.25, 1); }
+.rv.in { opacity: 1; transform: none; }
+/* width-fit scaling like previous sections: 1920 design, k-scale, no inner scroll */
+.s4__scale {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1318px;
+  transform: translate(-50%, -50%) scale(var(--k4));
+  transform-origin: center center;
+}
+.s4__inner { width: 1880px; margin: 0 auto; padding-top: 50px; padding-bottom: 50px; }
+.s4__kicker {
+  margin: 0 0 20px;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400; font-size: 30px; line-height: 1.1; letter-spacing: -0.02em; color: #C2C2C2;
+  text-align: center;
+}
+.s4__title {
+  margin: 0 0 50px;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700; font-size: 120px; line-height: 0.88;
+  letter-spacing: -0.05em; text-transform: uppercase; color: #fff;
+  text-align: center;
+}
+.s4__title .tl { display: block; }
+.s4__title .tl1 { color: var(--accent); }
+.m-s4title { display: none; }
+.s4__cards {
+  position: relative;
+  display: grid; grid-template-columns: repeat(3, 599.33px); gap: 41px;
+}
+.s4-card {
+  border: 1px solid #C2C2C2;
+  background: #000;
+  padding: 40px;
+  display: flex; flex-direction: column;
+  min-height: 597px;
+  position: relative;
+}
+.s4-card__head { display: contents; }
+/* staged open, phase 1: the source card settles — SELECT fades, content slides down
+   into the freed space (padding-top 40 -> 104); the popup flight starts only after
+   (JS stages 350ms). Scoped to [data-card] so the popup mini (also .s4-card) is out.
+   Reverse: s4closePop drops .is-leaving after the 0.8s collapse flight. */
+.s4-card[data-card] { transition: padding-top 0.35s cubic-bezier(0.65, 0, 0.35, 1); }
+.s4-card[data-card].is-leaving { padding-top: 104px; }
+/* net-zero settle: button fades AND collapses (74+24 -> 34+0 = -64px exactly
+   against +64px padding-top) — card/row height unchanged, live-%
+   popup always equals the cards zone */
+.s4-card[data-card].is-leaving .s4-card__btn {
+  opacity: 0; height: 34px; margin-top: 0;
+  transition: background-color 0.25s ease, opacity 0.25s ease, height 0.35s cubic-bezier(0.65, 0, 0.35, 1), margin-top 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.s4-card__name { margin: 0 0 10px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300; font-size: 30px; line-height: 1.2; letter-spacing: -0.01em; color: #C2C2C2; }
+.s4-card__price {
+  margin: 0 0 30px;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700; font-size: 100px; line-height: 1;
+  letter-spacing: -0.05em; white-space: nowrap; color: #fff;
+  overflow: visible;
+}
+.s4-card__price .per { font-size: 40px; letter-spacing: -0.01em; }
+.s4-card__perks { list-style: disc outside; margin: 0; padding: 0 0 0 32px; display: grid; gap: 10px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.s4-card__perks li { font-weight: 400; font-size: 30px; line-height: 1.2; letter-spacing: -0.01em; color: #C2C2C2; }
+.s4-card__perks li::marker { color: #C2C2C2; }
+.s4-card__btn {
+  margin-top: 24px;
+  width: 100%; height: 74px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 2px solid #000;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000; font-size: 26px; font-weight: 700; line-height: 1; letter-spacing: -0.05em;
+  padding: 0; text-align: center; cursor: pointer;
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+.s4-card__btn:hover { background: var(--accent); }
+/* Mini inside the form block: no extra border or padding, the popup frame draws it. */
+.s4-pop .s4-card { border: 0; padding: 0; }
+.s4-pop__form input {
+  width: 100%; height: 75px;
+  background: transparent; border: 1px solid #C2C2C2; border-radius: 0;
+  color: #fff; font-size: 25px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: -0.05em;
+  padding: 0 16px 0 23px; margin: 0;
+}
+.s4-pop__form input::placeholder { color: #C2C2C2; opacity: 0.6; }
+/* live validation: yellow rim only on touched-or-submitted invalid fields */
+.s4-pop__form input.is-err { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.s4-form__submit {
+  margin-top: 0; width: 100%; height: 92px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 0;
+  font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #000; font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -0.05em;
+  padding: 0; text-align: center; cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+.s4-form__submit:hover { background: var(--accent); }
+.s4-pop {
+  position: absolute; top: 0; left: 0;
+  width: 100%;
+  background: #000; border: 1px solid #C2C2C2;
+  overflow: hidden; /* FLIP: wide grid and translateY stagger must not leak into panel scroll */
+  z-index: 5;
+  transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1), top 0.8s cubic-bezier(0.65, 0, 0.35, 1), width 0.8s cubic-bezier(0.65, 0, 0.35, 1), height 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.s4-pop[hidden] { display: none !important; }
+.s4-pop__grid { display: grid; grid-template-columns: 599.33px 1fr auto; gap: 40px 80px; padding: 40px 40px 40px 136px; align-items: start; }
+.s4-pop__mini { min-height: 0; }
+/* mini content displacement: the selected card info TRAVELS into place (0.8s
+   ease-in-out, same family as the container flight) — opacity stays 1 throughout,
+   only transform moves. Start offset set from JS (s4glideMini). */
+.s4-pop__mini { transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
+/* shared-element flight ghost: a fixed clone carrying the card info from the source
+   card into the mini slot. Starts after the frame opens a gap, lands exactly. */
+.s4-fly-ghost { position: fixed; z-index: 7; margin: 0; pointer-events: none; }
+.s4-pop .s4-card.s4-pop__mini { padding-top: 90px; }
+.s4-pop__form { display: grid; grid-template-columns: 1fr; gap: 20px; align-content: start; margin: 0; padding-top: 90px; }
+.s4-pop__form .s4-form__submit:hover { background: var(--accent); }
+.s4-pop__note { margin: 0; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 25px; line-height: 1.2; letter-spacing: -0.05em; color: #C2C2C2; text-transform: uppercase; }
+.s4-form__ok { margin: 0; padding: 60px 0 24px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 25px; line-height: 1.2; letter-spacing: -0.05em; color: #fff; text-transform: uppercase; }
+.s4-form__error { margin: 0; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.3; letter-spacing: -0.02em; color: var(--accent); text-align: center; }
+.s4-form__submit:disabled { opacity: 0.65; cursor: wait; }
+.s4-form__submit.is-sending:hover { background: #fff; }
+.s4-pop__item {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transition-delay: calc(0.75s + var(--d, 0) * 0.08s); /* after the 0.8s block flight */
+}
+.s4-pop.is-open .s4-pop__item { opacity: 1; transform: none; }
+.s4-pop:not(.is-open) .s4-pop__item { transition-delay: 0s; }
+.s4-pop__x {
+  align-self: start; z-index: 6;
+  width: 56px; height: 56px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background: #000; color: #fff; border: 0;
+  font-size: 36px; line-height: 1; padding: 10px; cursor: pointer;
+  opacity: 0; visibility: hidden; transform: scale(0.6);
+  transition: opacity 0.25s ease 0.8s, transform 0.25s ease 0.8s, visibility 0s linear 1.05s;
+}
+.s4-pop.is-open .s4-pop__x { opacity: 1; visibility: visible; transform: none; }
+.s4-pop:not(.is-open) .s4-pop__x { transition-delay: 0s; visibility: hidden; }
+.s4-pop__x:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+
+@media (max-width: 600px) {
+  .s4__scale { width: 370px; height: 1072px; left: 50%; top: 0; transform: translateX(-50%) scale(var(--k2)); transform-origin: top center; }
+  .s4__inner { width: 330px; margin: 0 auto; padding-top: 20px; padding-bottom: 20px; }
+  .s4__kicker { font-size: 12px; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .s4__title { display: none; }
+  .m-s4title { display: block; margin: 0 0 20px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 32px; line-height: 0.88; letter-spacing: -0.05em; text-transform: uppercase; color: #fff; text-align: center; }
+  .m-s4title .tl { display: block; }
+  .m-s4title .tl1 { color: var(--accent); }
+  .s4__cards { grid-template-columns: 1fr; gap: 17px; }
+  .s4-card { min-height: 0; padding: 16px; gap: 16px; }
+  /* mobile: no card slide-down (content already in place) — button fade only */
+  .s4-card[data-card].is-leaving { padding-top: 16px; }
+  .s4-card[data-card].is-leaving .s4-card__btn { height: 38px; }
+  .s4-card__head { display: flex; flex-direction: column; gap: 4px; }
+  .s4-card__name { font-size: 16px; line-height: 1.0104; letter-spacing: -0.01em; margin-bottom: 0; }
+  .s4-card__price { font-size: 40px; line-height: 1.0104; letter-spacing: -0.01em; margin-bottom: 0; }
+  .s4-card__price .per { font-size: 24px; letter-spacing: -0.01em; }
+  .s4-card__perks { gap: 10px; padding-left: 20px; }
+  .s4-card__perks li { font-size: 16px; line-height: 1.0104; letter-spacing: -0.01em; }
+  .s4-card__btn { height: 38px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 700; line-height: 1.0104; letter-spacing: -0.05em; border-width: 1px; margin-top: 0; }
+  /* MOB-4-2: popup is an absolute overlay over the cards zone (no reflow, no scroll) */
+  .s4-pop { position: absolute; left: 0; top: 0; width: 330px; height: 100%; background: #000; border: 1px solid #C2C2C2; transition: left 0.5s ease-out, top 0.5s ease-out; overflow: hidden; }
+  .s4-pop__grid { display: block; padding: 16px; }
+  .s4-pop .s4-card.s4-pop__mini { padding-top: 0; }
+  .s4-pop__form { padding-top: 0; }
+  .s4-pop__mini .s4-card__head { margin-bottom: 16px; }
+  .s4-pop__form { grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+  .s4-pop__form input { height: 39px; font-size: 14px; letter-spacing: -0.01em; padding: 12px 10px; }
+  .s4-pop__form .s4-form__submit { height: 50px; font-family: "HelveticaNeueCyr", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; line-height: 1.0104; letter-spacing: -0.05em; margin-top: 0; }
+  .s4-pop__note { font-size: 12px; line-height: 1.0104; letter-spacing: -0.05em; margin: 14px 0 0; text-align: center; }
+  .s4-form__ok { padding: 24px 0 12px; font-size: 16px; line-height: 1.2; text-align: center; }
+  .s4-form__error { font-size: 13px; }
+  .s4-pop__x { position: absolute; top: 9px; right: 8px; width: 40px; height: 40px; font-size: 24px; padding: 8px; }
+  body.native .s4 { margin: calc(60px * var(--k2)) 0 0; }
+
+  /* redesign 10.2026 · mobile collapse block: 370-stage k2 scale, same -4px gaps */
+  .c2__top, .c2__bottom {
+    left: calc((100vw - 370px * var(--k2)) / 2 + 20px * var(--k2));
+    width: 330px;
+    transform: scale(var(--k2));
+    font-size: 36px; line-height: 0.88; letter-spacing: -0.02em;
+  }
+  .c2 { --gapT: 14px; --gapB: 14px; } /* mobile: photo<->headline gaps */
+  /* mobile content per mob-3: order lead -> big -> video -> text3, gaps 61/60/11 */
+  .s2c { padding: 0; }
+  /* mobile: no scale stage — regular flow, small typography directly */
+  .s2c__scale { position: relative; left: auto; top: auto; width: 100%; transform: none; }
+  .s2c__inner { display: flex; flex-direction: column; padding: 41px 0 0; } /* 61-20: mirrored H2-padding compensation */
+  .s2c__texts { display: contents; }
+  .s2c__lead { order: 1; margin: 0 20px 61px; width: 288px; font-size: 16px; line-height: 1.1; letter-spacing: 0; }
+  .s2c__big { order: 2; margin: 0 20px 60px; width: 330px; font-size: 30px; line-height: 0.92; letter-spacing: -0.02em; }
+  .video { order: 3; margin: 0 0 11px; }
+  .s2c__text { order: 4; margin: 0 20px 0; width: 288px; font-size: 16px; line-height: 1.1; letter-spacing: 0; }
+  .video__frame { margin-left: 0; width: 100%; }
+  .video__play { width: 65px; height: 65px; }
+  /* redesign 10.2026 · mobile ribbons: pre-redesign 370×700 geometry, scroll-check drive */
+  .s3 { padding: 0; height: calc(350px * var(--k2)); }
+  .s3__stage {
+    left: 50%; top: 50%;
+    width: 370px; height: 350px;
+    transform: translate(-50%, -50%) scale(var(--k2));
+    transform-origin: center center;
+  }
+  .ribbon { padding: 6px 0 0; /* text 1px lower than previous position */ }
+  .ribbon > span { font-size: 54px; line-height: 1; transform: translateY(-2px); /* desktop override without stacking: +6 from -4 (ribbons lower, 10.2026) */ }
+  .ribbon[data-r="0"] {
+    left: -330px; top: 57px; width: 970px; height: 57px;
+    transform: rotate(-9.74deg) translate(1025px, 0);
+  }
+  .ribbon[data-r="1"] {
+    left: -245.5px; top: 156px; width: 835px; height: 57px;
+    transform: rotate(2.28deg) translate(-937.5px, 0);
+  }
+  .ribbon[data-r="2"] {
+    left: -385px; top: 256px; width: 1160px; height: 57px;
+    transform: rotate(-4.2deg) translate(1120px, 0);
+  }
+  .ribbon[data-r="0"].in { transform: rotate(-9.74deg) translate(20px, 0); }
+  .ribbon[data-r="1"].in { transform: rotate(2.28deg) translate(0, 0); }
+  .ribbon[data-r="2"].in { transform: rotate(-4.2deg) translate(20px, 0); }
+}
