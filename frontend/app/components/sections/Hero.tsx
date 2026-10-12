@@ -10,24 +10,23 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
   return (
     <section className="relative min-h-screen w-full flex flex-col justify-between pt-24 sm:pt-28 pb-12 overflow-hidden bg-black">
       {/* 1. Fullscreen Sky & Warsaw Hangar Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Starts below the fixed navbar (h-16 / sm:h-20) so the wordmark is never covered by it */}
+      <div className="absolute inset-x-0 bottom-0 top-16 sm:top-20 z-0 pointer-events-none">
         <picture className="block h-full">
           <source media="(max-width: 640px)" srcSet="/media/sky-m.webp" type="image/webp" />
-          {/* Mobile: image is capped to the upper part of the hero so the hangar stays above the content card */}
+          {/* Mobile/tablet: image ends where the content card starts. Desktop: natural ratio, fully visible. */}
           <img
             src="/media/sky.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
-            className="w-full h-[calc(6rem+40vh)] sm:h-[calc(7rem+50vh)] lg:h-auto lg:max-h-full object-cover object-[center_25%] lg:object-top opacity-90"
+            className="w-full h-[calc(2rem+40vh)] sm:h-[calc(2rem+50vh)] lg:h-auto object-cover object-[center_40%] lg:object-top lg:[mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
             fetchPriority="high"
           />
         </picture>
-        {/* Cinematic gradient overlays for contrast and readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 via-65% to-black/60 pointer-events-none" />
-        <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
       </div>
 
-      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image, so this keeps the hangar clear of the card */}
-      <div className="flex-1 min-h-[40vh] sm:min-h-[50vh]" />
+      {/* 2. Spacer: the ZONE 53 wordmark is part of the hero image; on desktop the spacer scales with the
+          image height so the card starts below the hangar */}
+      <div className="flex-1 min-h-[40vh] sm:min-h-[50vh] lg:min-h-[calc(36.5vw-2rem)]" />
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">
