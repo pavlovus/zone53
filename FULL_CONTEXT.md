@@ -138,11 +138,11 @@ zone53/
 | :--- | :--- | :--- | :--- |
 | `name` | string | **Yes** | 2–100 characters. Sanitized text. |
 | `email` | string | **Yes** | Valid RFC 5322 email format. |
-| `phone` | string | **Yes** | 7–30 characters, international format. |
-| `website` | string | **Yes** | Company / fund / personal profile URL. |
+| `phone` | string | **Yes** | 7–50 characters, international format or handle. |
 | `investment_amount` | string | **Yes** | Planned investment ticket or capital range. |
+| `website` | string | No | Optional company / fund / personal profile URL (max 150 chars). |
 | `comment` | string | No | Optional notes, questions, or collaboration goals (max 1000 chars). |
-| `hp_field` | string | No | **Honeypot field**. Must be completely empty. If present, silently reject/block bot. |
+| `hp_field` / `trap_website` | string | No | **Honeypot field**. Must be completely empty. If present, silently accept with fake 200 without triggering Telegram. |
 
 ### 5.3 Response Codes
 * `200 OK`: `{ "ok": true, "message": "Inquiry received" }`
@@ -157,15 +157,19 @@ zone53/
 Incoming leads are dispatched to the configured Telegram chat as formatted HTML:
 
 ```html
-🚀 <b>New Investor Inquiry — ZONE 53</b>
+🚀 <b>NEW INVESTOR INQUIRY — ZONE 53</b>
 
 👤 <b>Name:</b> {name}
 ✉️ <b>Email:</b> {email}
 📞 <b>Phone:</b> {phone}
-🌐 <b>Website:</b> {website}
+🌐 <b>Website:</b> {website || "Not provided"}
 💰 <b>Investment Amount:</b> {investment_amount}
 📝 <b>Comment:</b> {comment || "None provided"}
 
+————————————
+⏱ <b>Timestamp:</b> {2026-10-13 02:15:00 UTC}
+🌐 <b>Client IP:</b> {ip}
+🖥 <b>User-Agent:</b> {userAgent}
 <i>Source: zone53.com</i>
 ```
 

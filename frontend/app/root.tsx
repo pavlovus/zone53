@@ -42,6 +42,24 @@ export const links: Route.LinksFunction = () => [
     href: "/media/sky.webp",
     media: "(min-width: 1024px)",
   },
+  {
+    rel: "manifest",
+    href: "/site.webmanifest",
+  },
+  {
+    rel: "icon",
+    href: "/favicon.ico",
+    sizes: "any",
+  },
+  {
+    rel: "icon",
+    type: "image/webp",
+    href: "/media/logo.webp",
+  },
+  {
+    rel: "apple-touch-icon",
+    href: "/media/logo.webp",
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -50,6 +68,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <Meta />
         <Links />
       </head>

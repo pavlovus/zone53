@@ -1,0 +1,17 @@
+{
+  "name": "ZONE 53 — Robotics & AR Laboratory",
+  "short_name": "ZONE 53",
+  "description": "Europe's Flagship Robotics & AR Hangar Laboratory near Warsaw, Poland.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#FFCC00",
+  "icons": [
+    {
+      "src": "/media/logo.webp",
+      "sizes": "256x256",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

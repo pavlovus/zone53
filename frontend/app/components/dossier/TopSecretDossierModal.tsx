@@ -19,7 +19,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
     email: "",
     website: "",
     phone: "",
-    mandate: "VENTURE ALLOCATION",
+    investment_amount: "",
     comment: "",
     trap_website: "", // honeypot
   });
@@ -216,39 +216,6 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const mandateOptions = [
-    "VENTURE ALLOCATION",
-    "ENTERPRISE PILOT",
-    "HARDWARE RESIDENCY",
-    "STRATEGIC PARTNER",
-  ];
-
-  const handleMandateSelect = (mandate: string) => {
-    sndPing(true);
-    setFormData((prev) => ({ ...prev, mandate }));
-  };
-
-  // Accessible keyboard navigation for radio group (Arrow keys)
-  const handleMandateKeyDown = (e: React.KeyboardEvent, index: number) => {
-    let nextIndex = index;
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      nextIndex = (index + 1) % mandateOptions.length;
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      nextIndex = (index - 1 + mandateOptions.length) % mandateOptions.length;
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleMandateSelect(mandateOptions[index]);
-      return;
-    } else {
-      return;
-    }
-    const nextOpt = mandateOptions[nextIndex];
-    handleMandateSelect(nextOpt);
-    document.getElementById(`mandate-opt-${nextIndex}`)?.focus();
-  };
-
   // Strict input validation
   const validateInputs = () => {
     if (!formData.name.trim()) {
@@ -264,6 +231,11 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
     }
     if (formData.phone.trim().length < 6) {
       setErrorMessage("PHONE / SIGNAL MUST BE AT LEAST 6 CHARACTERS");
+      sndClick(600);
+      return false;
+    }
+    if (!formData.investment_amount.trim()) {
+      setErrorMessage("PLANNED INVESTMENT AMOUNT IS REQUIRED");
       sndClick(600);
       return false;
     }
@@ -358,9 +330,11 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
       const payload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
-        website: formData.website.trim() || "N/A",
+        website: formData.website.trim() || undefined,
         phone: formData.phone.trim(),
-        package: `[${formData.mandate}] ${formData.comment.trim() ? "— " + formData.comment.trim() : ""}`,
+        investment_amount: formData.investment_amount.trim(),
+        comment: formData.comment.trim() || undefined,
+        trap_website: formData.trap_website || undefined,
       };
 
       const res = await fetch("/api/lead", {
@@ -391,7 +365,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
   };
 
   const handleCopyReceipt = () => {
-    const text = `ZONE 53 DOSSIER TRANSMISSION RECEIPT\nCALLSIGN: ${formData.name}\nMANDATE: [${formData.mandate}]\nTELEMETRY TIME: ${formattedTime}\nSTATUS: DISPATCHED // ENCRYPTED\nFACILITY: EPIKOR WARSAW PROVING GROUNDS`;
+    const text = `ZONE 53 DOSSIER TRANSMISSION RECEIPT\nCALLSIGN: ${formData.name}\nINVESTMENT: [${formData.investment_amount}]\nTELEMETRY TIME: ${formattedTime}\nSTATUS: DISPATCHED // ENCRYPTED\nFACILITY: EPIKOR WARSAW PROVING GROUNDS`;
     navigator.clipboard?.writeText(text);
     setCopiedReceipt(true);
     sndPing(true);
@@ -417,9 +391,8 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
       {/* Dossier Container with physical scale-in and graceful scale-out */}
       <div
         ref={modalRef}
-        className={`dossier-window relative w-full max-w-3xl bg-[#090909] border-2 border-[#333333] shadow-[0_0_50px_rgba(0,0,0,0.95)] my-auto chamfer-dossier max-h-[90dvh] flex flex-col overflow-y-auto z-10 ${
-          isVisible ? "is-open" : "is-closing"
-        }`}
+        className={`dossier-window relative w-full max-w-3xl bg-[#090909] border-2 border-[#333333] shadow-[0_0_50px_rgba(0,0,0,0.95)] my-auto chamfer-dossier max-h-[90dvh] flex flex-col overflow-y-auto z-10 ${isVisible ? "is-open" : "is-closing"
+          }`}
       >
         {/* Top Classification Header Bar */}
         <div className="bg-[#141414] border-b-2 border-[#262626] px-4 sm:px-6 py-2.5 flex items-center justify-between text-white flex-shrink-0 cascade-in cascade-delay-1 gap-2">
@@ -626,39 +599,34 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 />
               </div>
 
-              {/* SECTION II: MANDATE */}
+              {/* SECTION II: CAPITAL ALLOCATION & BRIEF */}
               <div className="flex flex-col gap-3 pt-3 border-t border-[#222222] cascade-in cascade-delay-5">
                 <div className="font-mono text-xs text-[#FFCC00] font-bold tracking-wider">
-                  // SELECT MANDATE
+                  // CAPITAL ALLOCATION & BRIEF
                 </div>
 
-                <div
-                  role="radiogroup"
-                  aria-label="Application Mandate Category"
-                  className="grid grid-cols-2 sm:grid-cols-4 gap-2"
-                >
-                  {mandateOptions.map((opt, idx) => (
-                    <button
-                      key={opt}
-                      id={`mandate-opt-${idx}`}
-                      type="button"
-                      role="radio"
-                      aria-checked={formData.mandate === opt}
-                      tabIndex={formData.mandate === opt ? 0 : -1}
-                      onClick={() => handleMandateSelect(opt)}
-                      onKeyDown={(e) => handleMandateKeyDown(e, idx)}
-                      className={`p-2.5 font-mono text-[10px] tracking-wider uppercase border active:scale-[0.97] transition-all text-center cursor-pointer ${
-                        formData.mandate === opt
-                          ? "bg-[#FFCC00] text-black font-bold border-[#FFCC00] shadow-[0_0_10px_rgba(255,204,0,0.3)]"
-                          : "bg-black/60 text-white/70 border-[#333333] hover:border-[#666666] hover:text-white hover:bg-[#0E0E0E]"
-                      }`}
-                    >
-                      [{opt}]
-                    </button>
-                  ))}
+                {/* Investment Amount Input */}
+                <div className="flex flex-col gap-1">
+                  <label
+                    htmlFor="z53-investment"
+                    className="font-mono text-[11px] text-white/70 uppercase tracking-wider"
+                  >
+                    Planned Investment Amount *
+                  </label>
+                  <input
+                    id="z53-investment"
+                    name="investment_amount"
+                    type="text"
+                    required
+                    maxLength={100}
+                    value={formData.investment_amount}
+                    onChange={handleChange}
+                    placeholder="e.g. $2000"
+                    className="h-11 px-3 bg-black border border-[#333333] hover:border-[#666666] hover:bg-[#0A0A0A] focus:border-[#FFCC00] focus:bg-black focus:shadow-[0_0_10px_rgba(255,204,0,0.25)] text-white font-mono text-xs outline-none transition-all cursor-text"
+                  />
                 </div>
 
-                {/* Brief Mandate Comment */}
+                {/* Brief Project Notes */}
                 <div className="flex flex-col gap-1 mt-1 cascade-in cascade-delay-6">
                   <div className="flex justify-between items-center">
                     <label
@@ -743,11 +711,10 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 onTouchStart={startBiometricHold}
                 onTouchEnd={cancelBiometricHold}
                 onTouchCancel={cancelBiometricHold}
-                className={`relative w-36 h-36 sm:w-44 sm:h-44 bg-black border-2 flex flex-col items-center justify-center cursor-pointer chamfer-md transition-all select-none cascade-in cascade-delay-2 ${
-                  biometricHolding
+                className={`relative w-36 h-36 sm:w-44 sm:h-44 bg-black border-2 flex flex-col items-center justify-center cursor-pointer chamfer-md transition-all select-none cascade-in cascade-delay-2 ${biometricHolding
                     ? "border-[#FFCC00] shadow-[0_0_30px_rgba(255,204,0,0.4)] scale-105"
                     : "border-[#444444] hover:border-[#FFCC00]/60 active:scale-[0.98]"
-                }`}
+                  }`}
                 title="Click or hold to authorize"
               >
                 {/* Hardware-accelerated laser line scan */}
@@ -756,9 +723,8 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 {/* SVG Fingerprint / Cipher Graphic */}
                 <svg
                   viewBox="0 0 24 24"
-                  className={`w-16 h-16 sm:w-20 sm:h-20 transition-colors pointer-events-none ${
-                    biometricHolding ? "text-[#FFCC00]" : "text-white/40"
-                  }`}
+                  className={`w-16 h-16 sm:w-20 sm:h-20 transition-colors pointer-events-none ${biometricHolding ? "text-[#FFCC00]" : "text-white/40"
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.2"
@@ -840,9 +806,8 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
             <div className="step-fade-in flex flex-col items-center text-center py-8 gap-6">
               {/* Dynamic Authorized Stamp */}
               <div
-                className={`border-4 border-[#FFCC00] bg-[#FFCC00]/10 text-[#FFCC00] px-6 sm:px-8 py-3 font-display text-2xl sm:text-4xl font-black uppercase tracking-tight shadow-[0_0_30px_rgba(255,204,0,0.3)] cascade-in cascade-delay-1 ${
-                  stampActive ? "stamp-active" : ""
-                }`}
+                className={`border-4 border-[#FFCC00] bg-[#FFCC00]/10 text-[#FFCC00] px-6 sm:px-8 py-3 font-display text-2xl sm:text-4xl font-black uppercase tracking-tight shadow-[0_0_30px_rgba(255,204,0,0.3)] cascade-in cascade-delay-1 ${stampActive ? "stamp-active" : ""
+                  }`}
               >
                 [ACCESS AUTHORIZED // DISPATCHED]
               </div>
@@ -868,12 +833,12 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-b border-white/10 pb-1.5 gap-2">
-                  <span className="text-white/40 flex-shrink-0">MANDATE:</span>
+                  <span className="text-white/40 flex-shrink-0">INVESTMENT:</span>
                   <span
                     className="text-[#FFCC00] font-bold truncate max-w-[200px]"
-                    title={formData.mandate}
+                    title={formData.investment_amount}
                   >
-                    [{formData.mandate}]
+                    [{formData.investment_amount}]
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-b border-white/10 pb-1.5 gap-2">
