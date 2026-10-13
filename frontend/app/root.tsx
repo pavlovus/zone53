@@ -53,12 +53,13 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "icon",
-    type: "image/webp",
-    href: "/media/logo.webp",
+    type: "image/png",
+    sizes: "32x32",
+    href: "/favicon-32x32.png",
   },
   {
     rel: "apple-touch-icon",
-    href: "/media/logo.webp",
+    href: "/apple-touch-icon.png",
   },
 ];
 
