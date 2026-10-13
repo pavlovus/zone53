@@ -126,10 +126,13 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
 
       {/* 4. Hero Bottom Content: Headline, Manifesto & Action Call */}
       <div className="relative z-20 max-w-[1920px] mx-auto w-full px-4 sm:px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-t border-white/15 pt-6 sm:pt-8 bg-black/70 backdrop-blur-md p-6 sm:p-8 chamfer-md hero-card-enter">
-          {/* Left: Headline */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-t border-white/15 pt-6 sm:pt-8 bg-black/70 backdrop-blur-md p-6 sm:p-8 chamfer-md hero-card-enter lg:[container-type:inline-size]">
+          {/* Left: Headline. Desktop size is fluid: the headline column is 7/12 of the card, and each of the two
+              lines is ~6.34em wide, so font-size = column / 6.34 * 0.95 = 8.75cqw - 2px (cqw = card content width),
+              capped at 8rem. This keeps both lines on one row at every width (the old stepped sizes wrapped to
+              four lines at ~1536px). */}
           <div className="lg:col-span-7 flex flex-col hero-headline-enter">
-            <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-9xl leading-[0.92] tracking-[0.01em] text-white m-0">
+            <h1 className="font-display uppercase text-4xl sm:text-6xl md:text-7xl lg:text-[length:clamp(4rem,calc(8.75cqw-2px),8rem)] lg:whitespace-nowrap leading-[0.92] tracking-[0.01em] text-white m-0">
               FIRST IN THE WORLD <br />
               <span className="text-[#FFCC00]">ROBOTICS & AR LAB.</span>
             </h1>
@@ -138,7 +141,7 @@ export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
           {/* Right: Primary Actions */}
           {/* Desktop: lifted ~0.1em of the headline size so the buttons line up with the headline's bottom line
               (its text box extends a little below the visible glyph baseline). */}
-          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end lg:mb-2 xl:mb-2.5 2xl:mb-[13px] hero-actions-enter">
+          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end justify-end lg:mb-[min(calc(0.875cqw-0.2px),12.8px)] hero-actions-enter">
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
               <Button
                 id="hero-request-access-btn"
