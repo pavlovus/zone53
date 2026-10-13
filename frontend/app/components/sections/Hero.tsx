@@ -1,29 +1,110 @@
 import React from "react";
 import { Button } from "../ui/Button";
-import { Zone53Logo } from "../ui/Zone53Logo";
+import { Zone53Paths } from "../ui/Zone53Logo";
 
 interface HeroProps {
   onRequestAccess: () => void;
   onExploreFacility: () => void;
 }
 
+// Mobile hero photo (sky-m.webp) intrinsic size, used as the SVG overlay's coordinate space.
+const ART_W = 942;
+const ART_H = 1433;
+// Zoom of the photo relative to "cover by width" (1 = photo exactly as wide as the screen).
+const ART_ZOOM = 1.136;
+// Wordmark: spans 90% of the visible photo width, with its baseline just behind the hangar roof (photo coords).
+const WORDMARK_W = 1864;
+const WORDMARK_H = 590;
+const WORDMARK_BASELINE_Y = 765;
+const VISIBLE_W = ART_W / ART_ZOOM;
+const WORD_W = VISIBLE_W * 0.9;
+const WORD_SCALE = WORD_W / WORDMARK_W;
+const WORD_TRANSFORM = `translate(${(ART_W - WORD_W) / 2} ${WORDMARK_BASELINE_Y - WORDMARK_H * WORD_SCALE}) scale(${WORD_SCALE})`;
+
 export function Hero({ onRequestAccess, onExploreFacility }: HeroProps) {
   return (
-    <section className="relative lg:min-h-screen w-full flex flex-col justify-start lg:justify-between pt-16 sm:pt-20 lg:pt-28 pb-12 overflow-hidden bg-black">
-      {/* 1a. Mobile/tablet: tall portrait scene filling almost the whole screen (below the fixed navbar,
-          leaving a peek of the content card). The image is zoomed 125% from the top so the hangar is large,
-          and the ZONE 53 title is rotated 90° above the roof so it can use the full height. */}
-      <div className="relative lg:hidden w-full h-[calc(100svh-9rem)] sm:h-[calc(100svh-10rem)] min-h-[26rem] overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-[125%] hero-art-enter">
+    <section className="relative h-svh min-h-[40rem] lg:h-auto lg:min-h-screen w-full flex flex-col justify-start lg:justify-between pt-16 sm:pt-20 lg:pt-28 pb-8 sm:pb-12 overflow-hidden bg-black">
+      {/* 1a. Mobile/tablet: the scene takes exactly the space left above the headline card, so the title and
+          both buttons are always inside the first screen. The photo is sized and offset in container units
+          (cqw/cqh): zoomed 113.6% of the screen width, centred, with the top of the sky cropped so the horizon
+          sits ~60% down the box (the offset is raised only when a short box would otherwise push the hangar out).
+          The ZONE 53 wordmark sits horizontally in the sky *behind* the hangar: the SVG overlay shares the
+          photo's own coordinate space, draws the wordmark, then re-draws the hangar silhouette from the same
+          photo on top of it. */}
+      <div className="relative lg:hidden w-full flex-1 min-h-0 overflow-hidden [container-type:size]">
+        <div
+          className="absolute hero-art-enter"
+          style={{
+            width: `${ART_ZOOM * 100}cqw`,
+            aspectRatio: `${ART_W} / ${ART_H}`,
+            left: `${((1 - ART_ZOOM) / 2) * 100}cqw`,
+            top: "calc(-1 * max(35.9cqw, 96.47cqw - 62cqh))",
+          }}
+        >
           <img
             src="/media/sky-m.webp"
             alt="Zone 53 Warsaw Hangar Laboratory"
-            className="w-full h-full object-cover object-top"
+            className="block w-full h-full"
             fetchPriority="high"
           />
-        </div>
-        <div className="absolute inset-x-0 top-3 bottom-[42%] flex justify-center text-white/85 pointer-events-none hero-logo-enter">
-          <Zone53Logo vertical className="h-full w-auto" />
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox={`0 0 ${ART_W} ${ART_H}`}
+            aria-hidden="true"
+            focusable="false"
+          >
+            <defs>
+              <clipPath id="z53-hangar-clip">
+                <polygon points="318,745 471,691 624,745 624,834 318,834" />
+              </clipPath>
+              {/* Dims the sky everywhere except inside the letters (knock-out), fading out toward the horizon. */}
+              <mask id="z53-letter-knockout" maskUnits="userSpaceOnUse" x="0" y="0" width={ART_W} height={ART_H}>
+                <rect x="0" y="0" width={ART_W} height={ART_H} fill="white" />
+                <g transform={WORD_TRANSFORM} fill="black">
+                  <Zone53Paths />
+                </g>
+              </mask>
+              <linearGradient id="z53-sky-dim" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="black" stopOpacity="0.58" />
+                <stop offset="0.72" stopColor="black" stopOpacity="0.58" />
+                <stop offset="1" stopColor="black" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {/* Same "window into a brighter sky" look as the desktop artwork: the sky around the wordmark is dimmed,
+                the letters reveal the bright clouds (slightly lifted), and a thin cool-white outline edges them. */}
+            <rect
+              x="0"
+              y="0"
+              width={ART_W}
+              height={WORDMARK_BASELINE_Y + 45}
+              fill="url(#z53-sky-dim)"
+              mask="url(#z53-letter-knockout)"
+            />
+            <g
+              transform={WORD_TRANSFORM}
+              fill="white"
+              fillOpacity="0.34"
+              style={{ mixBlendMode: "screen" }}
+            >
+              <Zone53Paths />
+            </g>
+            <g
+              transform={WORD_TRANSFORM}
+              fill="none"
+              stroke="#dcebff"
+              strokeOpacity="0.85"
+              strokeWidth="5"
+              strokeLinejoin="round"
+            >
+              <Zone53Paths />
+            </g>
+            <image
+              href="/media/sky-m.webp"
+              width={ART_W}
+              height={ART_H}
+              clipPath="url(#z53-hangar-clip)"
+            />
+          </svg>
         </div>
       </div>
 
