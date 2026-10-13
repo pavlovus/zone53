@@ -95,6 +95,6 @@ if (isProduction) {
 }
 
 const port = Number(process.env.PORT) || 3000;
-app.listen(port, () => {
-  console.log(`[Zone53] Express server running at http://localhost:${port} (${isProduction ? "production" : "development"})`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`[Zone53] Express server running at http://0.0.0.0:${port} (${isProduction ? "production" : "development"})`);
 });

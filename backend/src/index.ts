@@ -3,8 +3,8 @@ import { env } from "./config/env.js";
 
 const port = env.PORT || 4000;
 
-const server = app.listen(port, () => {
-  console.log(`[Zone53 Backend] Server running at http://localhost:${port} in ${env.NODE_ENV} mode`);
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`[Zone53 Backend] Server running at http://0.0.0.0:${port} in ${env.NODE_ENV} mode`);
 });
 
 // Production reverse proxy timeout alignment (prevents 502 connection reset races)
