@@ -21,8 +21,8 @@ app.use(express.json());
 
 const backendUrl = process.env.BACKEND_URL || "http://localhost:4000";
 
-// Forward /api/* requests to decoupled stateless backend service
-app.all("/api/*", async (req, res) => {
+// Forward /api and /api/* requests to decoupled stateless backend service (Express 5 syntax)
+app.all(["/api", "/api/*splat"], async (req, res) => {
   try {
     const targetUrl = new URL(req.originalUrl, backendUrl);
     const headers = new Headers();
