@@ -18,3 +18,5 @@ backend/dist/
 # AI Agent Skills
 .agents/
 skills-lock.json
+# Claude Code worktrees
+.claude/worktrees/
