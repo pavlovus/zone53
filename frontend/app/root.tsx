@@ -44,22 +44,22 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "manifest",
-    href: "/site.webmanifest",
+    href: "/site.webmanifest?v=2",
   },
   {
     rel: "icon",
-    href: "/favicon.ico",
+    href: "/favicon.ico?v=2",
     sizes: "any",
   },
   {
     rel: "icon",
     type: "image/png",
     sizes: "32x32",
-    href: "/favicon-32x32.png",
+    href: "/favicon-32x32.png?v=2",
   },
   {
     rel: "apple-touch-icon",
-    href: "/apple-touch-icon.png",
+    href: "/apple-touch-icon.png?v=2",
   },
 ];
 
