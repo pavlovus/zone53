@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://zone53.eu/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://zone53.eu/media/sky.webp</image:loc>
+      <image:title>ZONE 53 — Europe's Flagship Robotics and AR Hangar Laboratory (Warsaw)</image:title>
+      <image:caption>Physical proving hangar near Warsaw, Poland. 1,200 sqm of testing grounds for unreleased autonomous robotics.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://zone53.eu/media/house.webp</image:loc>
+      <image:title>Physical Yellow Hangar Facility — ZONE 53 Warsaw</image:title>
+      <image:caption>Hardware testing hangar and prototype laboratory grounds in Poland.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://zone53.eu/media/logo.webp</image:loc>
+      <image:title>ZONE 53 Insignia Logo</image:title>
+      <image:caption>Classified hardware initiative of Epikor.</image:caption>
+    </image:image>
+  </url>
+</urlset>

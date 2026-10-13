@@ -4,9 +4,14 @@ import { createGridScene, type GridSceneHandle } from "./create-grid-scene";
 interface WavyGridBackgroundProps {
   className?: string;
   calm?: boolean;
+  active?: boolean;
 }
 
-export function WavyGridBackground({ className = "", calm = false }: WavyGridBackgroundProps) {
+export function WavyGridBackground({
+  className = "",
+  calm = false,
+  active = true,
+}: WavyGridBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const handleRef = useRef<GridSceneHandle | null>(null);
 
@@ -35,6 +40,10 @@ export function WavyGridBackground({ className = "", calm = false }: WavyGridBac
       handleRef.current = null;
     };
   }, [calm]);
+
+  useEffect(() => {
+    handleRef.current?.setActive(active);
+  }, [active]);
 
   return (
     <canvas

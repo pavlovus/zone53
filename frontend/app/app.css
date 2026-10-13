@@ -193,6 +193,61 @@ body {
   right: 6px;
 }
 
+/* ---------- TACTICAL ANALOG FILM GRAIN OVERLAY ---------- */
+.tactical-noise {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 45;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- CNC-MACHINED SPECULAR BEZEL CARDS ---------- */
+.cnc-card {
+  position: relative;
+  background-color: rgba(12, 12, 12, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition:
+    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cnc-card:hover {
+  background-color: #141414;
+  border-color: rgba(255, 204, 0, 0.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 204, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 204, 0, 0.12),
+    0 12px 35px -10px rgba(0, 0, 0, 0.85);
+}
+
+.cnc-crosshair {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.22);
+  user-select: none;
+  pointer-events: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.cnc-card:hover .cnc-crosshair {
+  color: #FFCC00;
+  transform: scale(1.15);
+}
+
 /* Top-Secret Ink Stamp Animation */
 @keyframes stampImprint {
   0% {
@@ -215,36 +270,350 @@ body {
   animation: stampImprint 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Laser scan animation for Biometric Touchpoint */
-@keyframes laserScan {
+/* =========================================================
+   TOP SECRET DOSSIER MODAL — CINEMATIC CHOREOGRAPHY
+   ========================================================= */
+
+@keyframes backdropDarken {
   0% {
-    top: 0%;
-    opacity: 0.2;
+    opacity: 0;
   }
-  50% {
-    top: 96%;
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes backdropLighten {
+  0% {
     opacity: 1;
   }
   100% {
-    top: 0%;
+    opacity: 0;
+  }
+}
+
+@keyframes dossierWindowEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dossierWindowExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95) translateY(16px);
+  }
+}
+
+/* Backdrop overlay - static blur with pure GPU opacity composite */
+.dossier-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow-y: auto;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  will-change: opacity;
+}
+
+.dossier-backdrop.is-open {
+  animation: backdropDarken 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+}
+
+.dossier-backdrop.is-closing {
+  animation: backdropLighten 0.38s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* Dossier Window Card - arrives onto an already-darkened background */
+.dossier-window {
+  will-change: transform, opacity;
+}
+
+.dossier-window.is-open {
+  animation: dossierWindowEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+.dossier-window.is-closing {
+  animation: dossierWindowExit 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* Step-to-step micro-transition */
+@keyframes stepEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.step-fade-in {
+  animation: stepEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered Inner Elements Cascade Animation */
+@keyframes cascadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cascade-in {
+  opacity: 0;
+  animation: cascadeIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.cascade-delay-1 { animation-delay: 240ms; }
+.cascade-delay-2 { animation-delay: 290ms; }
+.cascade-delay-3 { animation-delay: 340ms; }
+.cascade-delay-4 { animation-delay: 390ms; }
+.cascade-delay-5 { animation-delay: 440ms; }
+.cascade-delay-6 { animation-delay: 490ms; }
+.cascade-delay-7 { animation-delay: 540ms; }
+.cascade-delay-8 { animation-delay: 590ms; }
+
+/* Accessibility: respect user prefers-reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .dossier-backdrop.is-open,
+  .dossier-backdrop.is-closing,
+  .dossier-window.is-open,
+  .dossier-window.is-closing,
+  .cascade-in,
+  .step-fade-in,
+  .stamp-active,
+  .laser-line {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hardware-accelerated laser scan for Biometric Touchpoint */
+@keyframes laserScan {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(var(--scan-distance, 138px));
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
     opacity: 0.2;
   }
 }
 
 .laser-line {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   height: 2px;
   background: #FFCC00;
   box-shadow: 0 0 10px #FFCC00, 0 0 20px rgba(255, 204, 0, 0.8);
-  animation: laserScan 1.8s ease-in-out infinite;
+  will-change: transform;
+  animation: laserScan 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* ---------- SCROLL REVEAL & ENTRANCE ANIMATIONS ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition-property: opacity, transform;
+  transition-duration: 0.65s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.96) translateY(20px);
+}
+
+[data-reveal="fade"] {
+  transform: none;
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Stagger delay utility classes */
+.reveal-stagger-1 { --reveal-delay: 60ms; }
+.reveal-stagger-2 { --reveal-delay: 120ms; }
+.reveal-stagger-3 { --reveal-delay: 180ms; }
+.reveal-stagger-4 { --reveal-delay: 240ms; }
+.reveal-stagger-5 { --reveal-delay: 300ms; }
+.reveal-stagger-6 { --reveal-delay: 360ms; }
+.reveal-stagger-7 { --reveal-delay: 420ms; }
+.reveal-stagger-8 { --reveal-delay: 480ms; }
+
+/* Header Entrance */
+@keyframes headerEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-entrance {
+  animation: headerEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Tactical Equalizer Bars for Audio HUD */
+.eq-container {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.eq-bar {
+  width: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+  height: 3px;
+  transition: height 0.2s ease, opacity 0.2s ease;
+}
+
+.eq-container.is-active .eq-bar:nth-child(1) {
+  animation: eqPulse 0.75s ease-in-out infinite alternate;
+}
+.eq-container.is-active .eq-bar:nth-child(2) {
+  animation: eqPulse 0.55s ease-in-out 0.15s infinite alternate;
+}
+.eq-container.is-active .eq-bar:nth-child(3) {
+  animation: eqPulse 0.85s ease-in-out 0.3s infinite alternate;
+}
+
+@keyframes eqPulse {
+  0% {
+    height: 3px;
+  }
+  100% {
+    height: 11px;
+  }
+}
+
+/* Hero Load Cascade */
+@keyframes heroArtEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-art-enter {
+  animation: heroArtEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes heroCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-card-enter {
+  animation: heroCardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  will-change: opacity, transform;
+}
+
+@keyframes heroHeadlineEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-headline-enter {
+  animation: heroHeadlineEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+  will-change: opacity, transform;
+}
+
+@keyframes heroActionsEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-actions-enter {
+  animation: heroActionsEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+  will-change: opacity, transform;
+}
+
+@keyframes heroLogoEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0);
+  }
+}
+
+.hero-logo-enter {
+  animation: heroLogoEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+  will-change: opacity, transform;
 }
 
 /* ---------- LEGACY INDUSTRIAL CAUTION RIBBONS ---------- */
 .ribbon-stage {
   position: relative;
-  overflow: hidden;
+  /* Clip only horizontally: the rotated tapes must stay fully visible above/below the section box. */
+  overflow-x: clip;
+  overflow-y: visible;
   width: 100%;
 }
 
@@ -254,7 +623,7 @@ body {
   overflow: visible;
   padding: 0;
   will-change: transform;
-  transition: transform 0.68s cubic-bezier(0.22, 0.7, 0.25, 1);
+  transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
   background: #FFCC00;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
 }
@@ -308,9 +677,27 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  [data-reveal],
+  [data-reveal="scale"],
+  [data-reveal="fade"],
+  .header-entrance,
+  .hero-art-enter,
+  .hero-card-enter,
+  .hero-headline-enter,
+  .hero-actions-enter,
+  .hero-logo-enter {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
   .stamp-active {
     animation: none !important;
     opacity: 1 !important;
     transform: rotate(-4deg) !important;
+  }
+  .eq-container.is-active .eq-bar {
+    animation: none !important;
+    height: 6px !important;
   }
 }

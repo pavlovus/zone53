@@ -28,6 +28,38 @@ export const links: Route.LinksFunction = () => [
     href: "/fonts/Druk-Heavy-subset.woff2",
     crossOrigin: "anonymous",
   },
+  {
+    rel: "preload",
+    as: "font",
+    type: "font/woff2",
+    href: "/fonts/HelveticaNeueCyr-Bold.woff2",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "preload",
+    as: "image",
+    type: "image/webp",
+    href: "/media/sky.webp",
+    media: "(min-width: 1024px)",
+  },
+  {
+    rel: "manifest",
+    href: "/site.webmanifest",
+  },
+  {
+    rel: "icon",
+    href: "/favicon.ico",
+    sizes: "any",
+  },
+  {
+    rel: "icon",
+    type: "image/webp",
+    href: "/media/logo.webp",
+  },
+  {
+    rel: "apple-touch-icon",
+    href: "/media/logo.webp",
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -36,10 +68,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <Meta />
         <Links />
       </head>
       <body>
+        {/* WCAG 2.4.1 Skip-to-content anchor for keyboard and screen reader accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#FFCC00] focus:text-black focus:font-mono focus:text-xs focus:font-bold focus:shadow-[0_0_15px_rgba(255,204,0,0.5)] focus:outline-none"
+        >
+          [SKIP TO PRIMARY CONTENT ➔]
+        </a>
         {children}
         <ScrollRestoration />
         <Scripts />

@@ -5,45 +5,57 @@ import { createRequestHandler } from "@react-router/express";
 const isProduction = process.env.NODE_ENV === "production";
 const app = express();
 
+app.set("trust proxy", 1);
 app.disable("x-powered-by");
+
+// Standard security & privacy headers
+app.use((_req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+});
+
 app.use(compression());
 app.use(express.json());
 
-// Tactical Dossier Clearance Lead Endpoint
-app.post("/api/lead", async (req, res) => {
-  const { name, email, website, phone, package: pkg } = req.body || {};
-  if (!name || !email || !phone) {
-    return res.status(400).json({ ok: false, error: "missing_required_fields" });
-  }
+const backendUrl = process.env.BACKEND_URL || "http://localhost:4000";
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chat = process.env.TELEGRAM_CHAT_ID;
-
-  if (token && chat) {
-    try {
-      const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      const text =
-        `🚨 <b>NEW ZONE 53 CLEARANCE DOSSIER</b>\n` +
-        `<b>Callsign:</b> ${esc(name)}\n` +
-        `<b>Email:</b> ${esc(email)}\n` +
-        `<b>Phone/Signal:</b> ${esc(phone)}\n` +
-        `<b>Website:</b> ${esc(website)}\n` +
-        `<b>Scope:</b> ${esc(pkg)}\n` +
-        `<i>Time: ${new Date().toISOString()}</i>`;
-
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chat, text, parse_mode: "HTML" }),
-      });
-    } catch (err) {
-      console.error("[Telegram Satellite Error]", err);
+// Forward /api and /api/* requests to decoupled stateless backend service (Express 5 syntax)
+app.all(["/api", "/api/*splat"], async (req, res) => {
+  try {
+    const targetUrl = new URL(req.originalUrl, backendUrl);
+    const headers = new Headers();
+    for (const [key, val] of Object.entries(req.headers)) {
+      if (val && key.toLowerCase() !== "host") {
+        headers.set(key, Array.isArray(val) ? val.join(", ") : val);
+      }
     }
-  } else {
-    console.log("[Zone 53 Telemetry Dossier Received]", { name, email, phone, website, pkg });
-  }
+    const forwarded = req.headers["x-forwarded-for"];
+    const clientIp = typeof forwarded === "string" ? forwarded.split(",")[0]?.trim() : req.ip;
+    if (clientIp) headers.set("x-forwarded-for", clientIp);
 
-  return res.json({ ok: true, status: "authorized" });
+    const init = {
+      method: req.method,
+      headers,
+    };
+    if (req.method !== "GET" && req.method !== "HEAD" && req.body) {
+      init.body = JSON.stringify(req.body);
+    }
+
+    const response = await fetch(targetUrl.toString(), init);
+    res.status(response.status);
+    response.headers.forEach((value, name) => {
+      if (name.toLowerCase() !== "transfer-encoding") {
+        res.setHeader(name, value);
+      }
+    });
+    const body = await response.text();
+    return res.send(body);
+  } catch (err) {
+    console.error("[SSR Server API Forward Error]", err);
+    return res.status(502).json({ ok: false, error: "backend_unreachable" });
+  }
 });
 
 if (isProduction) {
@@ -83,6 +95,6 @@ if (isProduction) {
 }
 
 const port = Number(process.env.PORT) || 3000;
-app.listen(port, () => {
-  console.log(`[Zone53] Express server running at http://localhost:${port} (${isProduction ? "production" : "development"})`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`[Zone53] Express server running at http://0.0.0.0:${port} (${isProduction ? "production" : "development"})`);
 });

@@ -35,25 +35,17 @@ export function CautionRibbons() {
     return () => observer.disconnect();
   }, []);
 
+  // Each ribbon repeats phrase 15 times to ensure continuous coverage on ultra-wide 4K/5K displays
   const ribbonsData = [
-    {
-      r: "0",
-      text: "UNRELEASED TECH // UNRELEASED TECH // UNRELEASED TECH // UNRELEASED TECH",
-    },
-    {
-      r: "1",
-      text: "CLOSED EVENTS // CLOSED EVENTS // CLOSED EVENTS // CLOSED EVENTS",
-    },
-    {
-      r: "2",
-      text: "WORLDWIDE NETWORK // WORLDWIDE NETWORK // WORLDWIDE NETWORK",
-    },
+    { r: "0", text: Array(15).fill("UNRELEASED TECH").join(" // ") },
+    { r: "1", text: Array(15).fill("CLOSED EVENTS").join(" // ") },
+    { r: "2", text: Array(15).fill("WORLDWIDE NETWORK").join(" // ") },
   ];
 
   return (
     <section
       ref={sectionRef}
-      className="ribbon-stage relative py-16 sm:py-28 bg-black/50 overflow-hidden"
+      className="ribbon-stage relative py-24 sm:py-44 bg-black/50"
       aria-label="Industrial Caution Ribbons"
     >
       <div className="flex flex-col gap-6 sm:gap-10 -my-6 sm:-my-10 relative z-10">
@@ -61,17 +53,12 @@ export function CautionRibbons() {
           <div
             key={item.r}
             data-r={item.r}
-            className={`legacy-ribbon w-[250vw] sm:w-[200vw] -ml-[50vw] sm:-ml-[25vw] py-3 sm:py-5 ${
+            className={`legacy-ribbon w-[160vw] sm:w-[200vw] -ml-[30vw] sm:-ml-[25vw] py-3 sm:py-5 ${
               isInView ? "in" : ""
             }`}
           >
-            <div className="flex items-center whitespace-nowrap overflow-hidden font-display text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight text-black">
-              <span className="inline-block px-4">
-                {item.text} // {item.text}
-              </span>
-              <span className="inline-block px-4" aria-hidden="true">
-                {item.text} // {item.text}
-              </span>
+            <div className="flex items-center justify-center sm:justify-start whitespace-nowrap overflow-hidden font-display text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.02em] text-black">
+              <span className="inline-block px-4">{item.text}</span>
             </div>
           </div>
         ))}
