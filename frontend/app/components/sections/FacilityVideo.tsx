@@ -53,23 +53,23 @@ export function FacilityVideo() {
 
   const sectors = [
     {
-      index: "01",
       title: "Autonomous Drone Flight Arena",
+      image: "/media/sector-drones.jpg",
       desc: "Reinforced 8-meter high ceiling cages with optical motion tracking cameras for testing high-speed autonomous swarm flight algorithms.",
     },
     {
-      index: "02",
       title: "Heavy Robotic Arm Testing Bays",
+      image: "/media/sector-robotic-arms.jpg",
       desc: "Anchored industrial concrete pads for high-torque robotic manipulators, teleoperation haptic rigs, and load testing.",
     },
     {
-      index: "03",
       title: "Spatial Computing & AR Sandbox",
+      image: "/media/sector-ar-sandbox.jpg",
       desc: "Physical obstacle obstacles, LiDAR mapping corridors, and dedicated mixed-reality visual calibration grids for headset tracking.",
     },
     {
-      index: "04",
-      title: "Rapid Prototyping Bay",
+      title: "Rapid Prototyping\nBay",
+      image: "/media/sector-prototyping.jpg",
       desc: "5-axis CNC mills, carbon fiber autoclaves, automated SMT pick-and-place electronics lines, and custom silicon debugging.",
     },
   ];
@@ -87,8 +87,8 @@ export function FacilityVideo() {
             <TelemetryBadge label="WARSAW HANGAR // CAM-01 LIVE" status="active" />
           </div>
           <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-[0.01em] leading-[0.95] m-0">
-            WARSAW HANGAR <br />
-            <span className="text-[#FFCC00]">PROJECT DEMOS.</span>
+            SECRET DEMO <br />
+            <span className="text-[#FFCC00]">REVEALED.</span>
           </h2>
         </div>
 
@@ -185,22 +185,40 @@ export function FacilityVideo() {
           </div>
         </div>
 
+        {/* Teaser title above the sectors */}
+        <p
+          data-reveal
+          className="font-mono text-xs sm:text-sm font-bold text-[#FFCC00] tracking-widest uppercase m-0 mb-4"
+        >
+          WILL BE REVEALED SOON...
+        </p>
+
         {/* 4 Infrastructure Sectors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 bg-[#222222] border border-[#222222]">
           {sectors.map((sector, index) => (
             <div
-              key={sector.index}
+              key={sector.title}
               data-reveal
               style={{ "--reveal-delay": `${index * 60}ms` } as React.CSSProperties}
-              className="cnc-card p-6 sm:p-8 flex flex-col justify-between group"
+              className="cnc-card p-6 sm:p-8 pt-16 sm:pt-20 flex flex-col justify-end group overflow-hidden"
             >
-              <span className="cnc-crosshair">+</span>
-              <div>
-                <span className="font-display text-2xl font-black text-[#FFCC00] block mb-3">
-                  {sector.index}
-                </span>
+              {/* Darkened background photo */}
+              <img
+                src={sector.image}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-65 transition-opacity duration-500 pointer-events-none"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/65 to-black/55 pointer-events-none"
+                aria-hidden="true"
+              />
 
-                <h3 className="font-sans text-lg sm:text-xl font-bold text-white mb-3 uppercase group-hover:text-[#FFCC00] transition-colors">
+              <span className="cnc-crosshair">+</span>
+              <div className="relative z-10">
+                <h3 className="font-sans text-xl sm:text-2xl font-bold text-white mb-3 uppercase leading-tight whitespace-pre-line group-hover:text-[#FFCC00] transition-colors">
                   {sector.title}
                 </h3>
 

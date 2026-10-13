@@ -10,43 +10,43 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
   const privileges = [
     {
       index: "01",
-      title: "Permanent Warsaw Hangar Flight Access",
-      desc: "Deploy unreleased aerial and ground autonomous robotics inside a controlled 1,200 m² indoor facility without regulatory airspace red-tape.",
+      title: "Chat with all startups",
+      desc: "Get a direct line to every startup in the hangar, plus the private chat with other partners.",
     },
     {
       index: "02",
-      title: "First-Look Deep Tech Dealflow",
-      desc: "Direct allocation rights in high-conviction robotics, defense, and spatial computing rounds before institutional syndicate announcements.",
+      title: "24/7 hangar access",
+      desc: "Come to the hangar any time, day or night.",
     },
     {
       index: "03",
-      title: "Closed Founder & Allocator Demo Days",
-      desc: "Invitation-only live flight showcases, hardware stress tests, and unrecorded technical deep-dives behind closed doors.",
+      title: "Access to all events",
+      desc: "Join every event we run, including the closed demos and showcases.",
     },
     {
       index: "04",
-      title: "Hardware Residency for Elite Engineers",
-      desc: "Dedicated bench space, industrial power, rapid carbon prototyping, CNC machinery, and high-bandwidth telemetry rigs.",
+      title: "Host your own event",
+      desc: "Organise your own event together with our team.",
     },
     {
       index: "05",
-      title: "Shared Sensor & Compute Fleet",
-      desc: "Access to high-speed optical motion capture, LiDAR corridors, RTK GPS repeaters, and edge GPU clusters for model fine-tuning.",
+      title: "Closed media channels",
+      desc: "Get news and updates from our private media channels.",
     },
     {
       index: "06",
-      title: "Private Command Network",
-      desc: "Direct encrypted communications with foundry partners, defense innovators, and top spatial software architects across Europe.",
+      title: "Find top engineers",
+      desc: "We help you search for top engineers for your team.",
     },
     {
       index: "07",
-      title: "Epikor Foundry Hardware Sourcing",
-      desc: "Pre-negotiated industrial component supply chains, rapid PCB fab turnarounds, custom silicon procurement, and chassis machining.",
+      title: "Robotics & AR consulting",
+      desc: "Get advice and hands-on help to bring robotics or AR into your business, or to build it.",
     },
     {
       index: "08",
-      title: "Custom AR Systems Co-Development",
-      desc: "Dedicated engineering advisory and joint prototyping to integrate spatial augmented reality interfaces into your industrial robotics fleet.",
+      title: "Launch in Poland",
+      desc: "Get help to launch and sell your product in Poland.",
     },
   ];
 
@@ -67,7 +67,7 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
             <span className="text-[#FFCC00]">WHEN IT'S STILL CLASSIFIED.</span>
           </h2>
           <p className="font-sans text-sm sm:text-lg text-white/80 max-w-2xl font-normal leading-relaxed m-0">
-            We do not sell SaaS subscription tiers. We assemble an unassailable consortium of venture allocators and industrial enterprise leaders who shape physical reality.
+            Here is everything your subscription includes: 8 benefits, listed below, from 24/7 hangar access to launching in Poland.
           </p>
         </div>
 

@@ -27,20 +27,19 @@ export function Footer() {
             </div>
 
             <p className="font-sans text-xs sm:text-sm text-white/70 max-w-md font-normal leading-relaxed m-0">
-              Europe's flagship robotics and AR proving hangar near Warsaw, Poland. A deep-tech hardware initiative of Epikor.
+              Let's build FCKN FUTURE together
             </p>
           </div>
 
           {/* Links Col 1: Epikor Ecosystem */}
           <div data-reveal className="reveal-stagger-1 md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider">
-            <span className="text-white/60 uppercase font-bold mb-2">[FOUNDRY]</span>
             <a
               href="https://epikor.eu/"
               target="_blank"
               rel="noreferrer"
               className="group text-white/80 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1.5"
             >
-              <span>EPIKOR FOUNDRY</span>
+              <span>EPIKOR WEBSITE</span>
               <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
                 ↗
               </span>
