@@ -32,11 +32,11 @@ export function meta({}: Route.MetaArgs) {
     },
     { name: "theme-color", content: "#000000" },
     // Canonical link
-    { tagName: "link", rel: "canonical", href: "https://zone53.com/" },
+    { tagName: "link", rel: "canonical", href: "https://zone53.eu/" },
     // Open Graph Social Meta
     { property: "og:site_name", content: "ZONE 53" },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://zone53.com/" },
+    { property: "og:url", content: "https://zone53.eu/" },
     {
       property: "og:title",
       content: "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory",
@@ -46,7 +46,7 @@ export function meta({}: Route.MetaArgs) {
       content:
         "Where robots meet augmented reality in the physical world. 1,200 sqm proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
-    { property: "og:image", content: "https://zone53.com/media/sky.webp" },
+    { property: "og:image", content: "https://zone53.eu/media/sky.webp" },
     { property: "og:image:width", content: "1920" },
     { property: "og:image:height", content: "1080" },
     {
@@ -65,7 +65,7 @@ export function meta({}: Route.MetaArgs) {
       content:
         "Where robots meet augmented reality in the physical world. 1,200 sqm proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
-    { name: "twitter:image", content: "https://zone53.com/media/sky.webp" },
+    { name: "twitter:image", content: "https://zone53.eu/media/sky.webp" },
     {
       name: "twitter:image:alt",
       content: "ZONE 53 Robotics and AR Proving Hangar Laboratory near Warsaw",
@@ -137,11 +137,11 @@ export default function Home() {
     "@graph": [
       {
         "@type": "ResearchOrganization",
-        "@id": "https://zone53.com/#organization",
+        "@id": "https://zone53.eu/#organization",
         "name": "ZONE 53",
-        "url": "https://zone53.com/",
-        "logo": "https://zone53.com/media/logo.webp",
-        "image": "https://zone53.com/media/sky.webp",
+        "url": "https://zone53.eu/",
+        "logo": "https://zone53.eu/media/logo.webp",
+        "image": "https://zone53.eu/media/sky.webp",
         "description":
           "The world's first Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor.",
         "parentOrganization": {
@@ -153,7 +153,7 @@ export default function Home() {
       },
       {
         "@type": "Place",
-        "@id": "https://zone53.com/#facility",
+        "@id": "https://zone53.eu/#facility",
         "name": "ZONE 53 Proving Grounds",
         "description":
           "1,200 sqm testing grounds for unreleased autonomous robotics and augmented reality hardware.",
@@ -170,11 +170,11 @@ export default function Home() {
       },
       {
         "@type": "WebSite",
-        "@id": "https://zone53.com/#website",
-        "url": "https://zone53.com/",
+        "@id": "https://zone53.eu/#website",
+        "url": "https://zone53.eu/",
         "name": "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory",
         "publisher": {
-          "@id": "https://zone53.com/#organization",
+          "@id": "https://zone53.eu/#organization",
         },
       },
     ],

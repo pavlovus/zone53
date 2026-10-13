@@ -268,7 +268,7 @@ Upon receiving a valid lead, the backend dispatches formatted, injection-safe HT
 ⏱ Timestamp: 2026-10-13 02:45:12 UTC
 🌐 Client IP: 194.29.130.4
 🖥 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...
-Source: zone53.com
+Source: zone53.eu
 ```
 
 ### 3. Health Check: `GET /health`
@@ -307,7 +307,7 @@ ZONE 53 features an **institutional-grade SEO suite**:
   * Full-resolution 1080p preview graphics (`og:image:width: 1920`, `og:image:height: 1080`).
   * Absolute URLs for reliable link rendering in Telegram, WhatsApp, LinkedIn, and Twitter/X.
 * **Search Engine Controls**:
-  * `<link rel="canonical" href="https://zone53.com/" />` to avoid duplicate content penalties.
+  * `<link rel="canonical" href="https://zone53.eu/" />` to avoid duplicate content penalties.
   * `max-image-preview:large` and `max-snippet:-1` to optimize for **Google Discover** and Rich Snippets.
 * **Image-Enriched Sitemap**:
   * [`frontend/public/sitemap.xml`](file:///Users/pavlovus/Desktop/zone53/frontend/public/sitemap.xml) includes official `<image:image>` tags for indexing facility photographs in Google Images.
@@ -326,7 +326,7 @@ To launch both frontend and backend on any VPS or cloud server:
 # Set your environment variables
 export TELEGRAM_BOT_TOKEN="your_bot_token"
 export TELEGRAM_CHAT_ID="your_chat_id"
-export FRONTEND_URL="https://zone53.com"
+export FRONTEND_URL="https://zone53.eu"
 
 # Build and start containers in detached mode
 docker compose up -d --build

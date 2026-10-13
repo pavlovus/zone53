@@ -39,7 +39,7 @@ export function formatTelegramMessage(lead: LeadInput, meta: LeadMetadata): stri
     `⏱ <b>Timestamp:</b> ${escapeHtml(time)}\n` +
     `🌐 <b>Client IP:</b> ${escapeHtml(meta.ip)}\n` +
     `🖥 <b>User-Agent:</b> ${escapeHtml(meta.userAgent)}\n` +
-    `<i>Source: zone53.com</i>`
+    `<i>Source: zone53.eu</i>`
   );
 }
 

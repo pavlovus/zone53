@@ -170,7 +170,7 @@ Incoming leads are dispatched to the configured Telegram chat as formatted HTML:
 ⏱ <b>Timestamp:</b> {2026-10-13 02:15:00 UTC}
 🌐 <b>Client IP:</b> {ip}
 🖥 <b>User-Agent:</b> {userAgent}
-<i>Source: zone53.com</i>
+<i>Source: zone53.eu</i>
 ```
 
 All dynamic values MUST be strictly HTML-escaped (`&`, `<`, `>`, `"`) prior to payload construction to prevent injection.
