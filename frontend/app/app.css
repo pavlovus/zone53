@@ -149,6 +149,17 @@ body {
   );
 }
 
+/* Yellow / black hazard stripes used to frame the classified dossier */
+.caution-stripes {
+  height: 10px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffcc00 0 10px,
+    #000000 10px 20px
+  );
+}
+
 .chamfer-dossier {
   clip-path: polygon(
     0 0,
@@ -598,7 +609,7 @@ body {
     transform: translateY(-12px);
   }
   100% {
-    opacity: 0.85;
+    opacity: 1;
     transform: translateY(0);
   }
 }

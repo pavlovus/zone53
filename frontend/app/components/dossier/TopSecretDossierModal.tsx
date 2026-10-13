@@ -219,7 +219,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
   // Strict input validation
   const validateInputs = () => {
     if (!formData.name.trim()) {
-      setErrorMessage("APPLICANT CALLSIGN / NAME IS REQUIRED");
+      setErrorMessage("NAME IS REQUIRED");
       sndClick(600);
       return false;
     }
@@ -230,12 +230,12 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
       return false;
     }
     if (formData.phone.trim().length < 6) {
-      setErrorMessage("PHONE / SIGNAL MUST BE AT LEAST 6 CHARACTERS");
+      setErrorMessage("PHONE MUST BE AT LEAST 6 CHARACTERS");
       sndClick(600);
       return false;
     }
     if (!formData.investment_amount.trim()) {
-      setErrorMessage("PLANNED INVESTMENT AMOUNT IS REQUIRED");
+      setErrorMessage("PLANNED MONTHLY INVESTMENT IS REQUIRED");
       sndClick(600);
       return false;
     }
@@ -249,13 +249,6 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
 
     sndPing(true);
     setStep("biometric");
-  };
-
-  const directSubmit = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setErrorMessage("");
-    if (!validateInputs()) return;
-    executeTransmission();
   };
 
   // Biometric hold mechanics (2.0s duration)
@@ -394,6 +387,9 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
         className={`dossier-window relative w-full max-w-3xl bg-[#090909] border-2 border-[#333333] shadow-[0_0_50px_rgba(0,0,0,0.95)] my-auto chamfer-dossier max-h-[90dvh] flex flex-col overflow-y-auto z-10 ${isVisible ? "is-open" : "is-closing"
           }`}
       >
+        {/* Top hazard stripes */}
+        <div className="caution-stripes" aria-hidden="true" />
+
         {/* Top Classification Header Bar */}
         <div className="bg-[#141414] border-b-2 border-[#262626] px-4 sm:px-6 py-2.5 flex items-center justify-between text-white flex-shrink-0 cascade-in cascade-delay-1 gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -478,21 +474,61 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
           {step === "fill" && (
             <form onSubmit={proceedToBiometric} className="step-fade-in flex flex-col gap-4 sm:gap-5">
               {/* Form Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#222222] cascade-in cascade-delay-3">
-                <div>
-                  <h2 className="font-display text-xl sm:text-2xl font-black uppercase text-white tracking-[0.01em] m-0">
-                    CLEARANCE APPLICATION
-                  </h2>
-                  <p id="dossier-modal-desc" className="font-sans text-xs text-white/60 mt-1 m-0">
-                    Direct application for partners, sponsors, and Warsaw hangar access.
-                  </p>
+              <div className="flex flex-col gap-3 pb-3 border-b border-[#222222] cascade-in cascade-delay-3">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p
+                      className="font-mono text-[10px] text-[#FFCC00] tracking-[0.2em] uppercase m-0 mb-1.5"
+                      aria-hidden="true"
+                    >
+                      DOSSIER // FILE #Z53-2026-X
+                    </p>
+                    <h2 className="font-display text-xl sm:text-2xl font-black uppercase text-white tracking-[0.01em] m-0">
+                      CLEARANCE APPLICATION
+                    </h2>
+                    <p id="dossier-modal-desc" className="font-sans text-xs text-white/60 mt-1 m-0">
+                      Direct application for partners, sponsors, and Warsaw hangar access.
+                    </p>
+                  </div>
+
+                  {/* Mechanical stamp */}
+                  <div
+                    aria-hidden="true"
+                    className="shrink-0 mt-1 rotate-[-4deg] border-2 border-[#FFCC00] px-2 py-1 font-mono text-[10px] sm:text-xs font-bold leading-tight tracking-widest text-center text-[#FFCC00] uppercase select-none"
+                  >
+                    PENDING
+                    <br />
+                    AUTHORIZATION
+                  </div>
+                </div>
+
+                {/* Document metadata strip */}
+                <div
+                  aria-hidden="true"
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#222222] border border-[#222222] font-mono text-[10px] uppercase tracking-wider select-none"
+                >
+                  {[
+                    ["File No.", "Z53-2026-X"],
+                    ["Classification", "Top Secret"],
+                    ["Origin", "Warsaw Hangar"],
+                    ["Distribution", "Eyes Only"],
+                  ].map(([label, value]) => (
+                    <div key={label} className="bg-[#0A0A0A] px-2.5 py-1.5 flex flex-col gap-0.5">
+                      <span className="text-white/50">{label}</span>
+                      <span className="text-white font-bold">{value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {/* SECTION I: CONTACT */}
               <div className="flex flex-col gap-3 cascade-in cascade-delay-4">
-                <div className="font-mono text-xs text-[#FFCC00] font-bold tracking-wider">
-                  // APPLICANT INFO
+                <div className="font-mono text-xs text-[#FFCC00] font-bold tracking-wider flex items-center gap-3">
+                  <span>PART I // APPLICANT IDENTITY</span>
+                  <span className="flex-1 h-px bg-[#222222]" aria-hidden="true" />
+                  <span className="text-white/25 font-normal tracking-normal select-none" aria-hidden="true">
+                    ████████ ███
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -502,7 +538,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                       htmlFor="z53-name"
                       className="font-mono text-[11px] text-white/70 uppercase tracking-wider"
                     >
-                      Callsign / Name *
+                      Name *
                     </label>
                     <input
                       ref={firstInputRef}
@@ -514,7 +550,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                       maxLength={100}
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Your name or callsign"
+                      placeholder="Your name"
                       className="h-11 px-3 bg-black border border-[#333333] hover:border-[#666666] hover:bg-[#0A0A0A] focus:border-[#FFCC00] focus:bg-black focus:shadow-[0_0_10px_rgba(255,204,0,0.25)] text-white font-mono text-xs outline-none transition-all cursor-text"
                     />
                   </div>
@@ -549,7 +585,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                       htmlFor="z53-website"
                       className="font-mono text-[11px] text-white/70 uppercase tracking-wider"
                     >
-                      Website / Entity
+                      Website
                     </label>
                     <input
                       id="z53-website"
@@ -570,7 +606,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                       htmlFor="z53-phone"
                       className="font-mono text-[11px] text-white/70 uppercase tracking-wider"
                     >
-                      Phone / Telegram *
+                      Phone *
                     </label>
                     <input
                       id="z53-phone"
@@ -581,7 +617,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                       maxLength={50}
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+48 600 123 456 or @telegram"
+                      placeholder="+48 600 123 456"
                       className="h-11 px-3 bg-black border border-[#333333] hover:border-[#666666] hover:bg-[#0A0A0A] focus:border-[#FFCC00] focus:bg-black focus:shadow-[0_0_10px_rgba(255,204,0,0.25)] text-white font-mono text-xs outline-none transition-all cursor-text"
                     />
                   </div>
@@ -601,8 +637,12 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
 
               {/* SECTION II: CAPITAL ALLOCATION & BRIEF */}
               <div className="flex flex-col gap-3 pt-3 border-t border-[#222222] cascade-in cascade-delay-5">
-                <div className="font-mono text-xs text-[#FFCC00] font-bold tracking-wider">
-                  // CAPITAL ALLOCATION & BRIEF
+                <div className="font-mono text-xs text-[#FFCC00] font-bold tracking-wider flex items-center gap-3">
+                  <span>PART II // CAPITAL ALLOCATION & BRIEF</span>
+                  <span className="flex-1 h-px bg-[#222222]" aria-hidden="true" />
+                  <span className="text-white/25 font-normal tracking-normal select-none" aria-hidden="true">
+                    ██████ ████
+                  </span>
                 </div>
 
                 {/* Investment Amount Input */}
@@ -611,7 +651,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                     htmlFor="z53-investment"
                     className="font-mono text-[11px] text-white/70 uppercase tracking-wider"
                   >
-                    Planned Investment Amount *
+                    Planned Monthly Investment *
                   </label>
                   <input
                     id="z53-investment"
@@ -621,7 +661,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                     maxLength={100}
                     value={formData.investment_amount}
                     onChange={handleChange}
-                    placeholder="e.g. $2000"
+                    placeholder="e.g. $2000/month"
                     className="h-11 px-3 bg-black border border-[#333333] hover:border-[#666666] hover:bg-[#0A0A0A] focus:border-[#FFCC00] focus:bg-black focus:shadow-[0_0_10px_rgba(255,204,0,0.25)] text-white font-mono text-xs outline-none transition-all cursor-text"
                   />
                 </div>
@@ -655,20 +695,9 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
               {/* Submit Triggers */}
               <div className="pt-3 border-t border-[#222222] flex items-center justify-end gap-3 cascade-in cascade-delay-7">
                 <button
-                  type="button"
-                  onClick={directSubmit}
-                  className="group px-4 h-11 bg-black border border-[#444444] hover:border-[#FFCC00] active:scale-[0.98] text-white/80 hover:text-white font-mono text-xs tracking-wider uppercase cursor-pointer transition-all inline-flex items-center gap-2"
-                >
-                  <span>DIRECT TRANSMIT</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110" aria-hidden="true">
-                    ➔
-                  </span>
-                </button>
-
-                <button
                   id="dossier-submit-btn"
                   type="submit"
-                  className="group px-6 sm:px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-transform cursor-pointer inline-flex items-center gap-2"
+                  className="group w-full px-6 sm:px-8 h-11 bg-[#FFCC00] hover:bg-[#E5B800] active:scale-[0.98] text-black font-mono font-bold text-xs tracking-widest uppercase chamfer-btn transition-transform cursor-pointer inline-flex items-center justify-center gap-2"
                 >
                   <span>BIOMETRIC SEAL</span>
                   <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110" aria-hidden="true">
@@ -676,6 +705,14 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                   </span>
                 </button>
               </div>
+
+              {/* Document small print */}
+              <p
+                aria-hidden="true"
+                className="m-0 font-mono text-[9px] sm:text-[10px] text-white/50 tracking-widest uppercase text-center select-none cascade-in cascade-delay-7"
+              >
+                PAGE 1 OF 1 // PROPERTY OF ZONE 53 · EPIKOR // UNAUTHORIZED DISCLOSURE IS PROHIBITED
+              </p>
             </form>
           )}
 
@@ -881,6 +918,9 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
             </div>
           )}
         </div>
+
+        {/* Bottom hazard stripes */}
+        <div className="caution-stripes mt-auto" aria-hidden="true" />
       </div>
     </div>
   );
