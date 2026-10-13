@@ -712,3 +712,31 @@ body {
     height: 6px !important;
   }
 }
+
+/* ==========================================================================
+   BRAND CURSOR: the ZONE 53 diamond mark without the "53".
+   Hollow ring by default, solid diamond over clickable elements. Fine pointers
+   only (touch devices have no cursor); text fields keep the native I-beam.
+   Unlayered on purpose so it wins over Tailwind's `cursor-pointer` utilities.
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    --z53-cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3E%3Cpath%20fill='%23000000'%20fill-rule='evenodd'%20d='M16%200.3000000000000007L31.7%2016L16%2031.7L0.3000000000000007%2016ZM16%206.199999999999999L25.8%2016L16%2025.8L6.199999999999999%2016Z'/%3E%3Cpath%20fill='%23FFCC00'%20fill-rule='evenodd'%20d='M16%201.3000000000000007L30.7%2016L16%2030.7L1.3000000000000007%2016ZM16%205.199999999999999L26.8%2016L16%2026.8L5.199999999999999%2016Z'/%3E%3C/svg%3E") 16 16, auto;
+    --z53-cursor-active: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3E%3Cpath%20fill='%23000000'%20d='M16%200.3000000000000007L31.7%2016L16%2031.7L0.3000000000000007%2016Z'/%3E%3Cpath%20fill='%23FFCC00'%20d='M16%201.8000000000000007L30.2%2016L16%2030.2L1.8000000000000007%2016Z'/%3E%3C/svg%3E") 16 16, pointer;
+  }
+
+  html,
+  body {
+    cursor: var(--z53-cursor);
+  }
+
+  a,
+  button,
+  summary,
+  select,
+  label[for],
+  [role="button"],
+  .cursor-pointer {
+    cursor: var(--z53-cursor-active);
+  }
+}
