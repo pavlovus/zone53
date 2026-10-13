@@ -13,7 +13,7 @@
 
 <p align="center">
   <b>"The robot is the next personal computer, and AR is its keyboard and mouse."</b><br/>
-  <i>1,200 m² physical proving grounds for unreleased autonomous hardware, neural perception, and spatial robotics.</i>
+  <i>300 m² physical proving grounds for unreleased autonomous hardware, neural perception, and spatial robotics.</i>
 </p>
 
 [Quickstart](#-quickstart--local-development) • [Mission](#-project-essence--mission) • [Architecture](#-system-architecture) • [Directory Structure](#-repository-directory-structure) • [Tech Stack](#-technology-stack) • [API & Telegram](#-data-contracts--api-pipeline) • [Security](#-security--anti-abuse) • [Deployment](#-deployment--docker)
@@ -301,7 +301,7 @@ ZONE 53 features an **institutional-grade SEO suite**:
 
 * **Schema.org Structured Data (JSON-LD)**:
   * `ResearchOrganization`: Establishes the ZONE 53 brand, logo, and links to Epikor (`epikor.eu`) and Alien Bazaar.
-  * `Place`: Registers physical Warsaw hangar facility coordinates (`52.2297°N, 21.0122°E`) and 1,200 m² scale to boost local Polish and European search indexing.
+  * `Place`: Registers physical Warsaw hangar facility coordinates (`52.2297°N, 21.0122°E`) and 300 m² scale to boost local Polish and European search indexing.
   * `WebSite`: Canonical search context mapping.
 * **Social Previews (Open Graph & Twitter Cards)**:
   * Full-resolution 1080p preview graphics (`og:image:width: 1920`, `og:image:height: 1080`).

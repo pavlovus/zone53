@@ -17,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
     {
       name: "description",
       content:
-        "The world's first Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor. 1,200 sqm of physical testing grounds for unreleased autonomous hardware.",
+        "The world's first Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor. 300 m² of physical testing grounds for unreleased autonomous hardware.",
     },
     {
       name: "keywords",
@@ -44,7 +44,7 @@ export function meta({}: Route.MetaArgs) {
     {
       property: "og:description",
       content:
-        "Where robots meet augmented reality in the physical world. 1,200 sqm proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
+        "Where robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
     { property: "og:image", content: "https://zone53.eu/media/sky.webp" },
     { property: "og:image:width", content: "1920" },
@@ -63,7 +63,7 @@ export function meta({}: Route.MetaArgs) {
     {
       name: "twitter:description",
       content:
-        "Where robots meet augmented reality in the physical world. 1,200 sqm proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
+        "Where robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
     { name: "twitter:image", content: "https://zone53.eu/media/sky.webp" },
     {
@@ -156,7 +156,7 @@ export default function Home() {
         "@id": "https://zone53.eu/#facility",
         "name": "ZONE 53 Proving Grounds",
         "description":
-          "1,200 sqm testing grounds for unreleased autonomous robotics and augmented reality hardware.",
+          "300 m² testing grounds for unreleased autonomous robotics and augmented reality hardware.",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Warsaw",
