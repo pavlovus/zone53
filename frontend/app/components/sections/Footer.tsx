@@ -31,7 +31,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Links Col 1: Epikor Ecosystem */}
+          {/* Links Col 1: Epikor Ecosystem & Engineering */}
           <div data-reveal className="reveal-stagger-1 md:col-span-3 flex flex-col gap-3 font-mono text-xs tracking-wider">
             <a
               href="https://epikor.eu/"
@@ -46,6 +46,18 @@ export function Footer() {
               <span className="sr-only"> (opens in new tab)</span>
             </a>
             <span className="text-white/60">WARSAW HANGAR LABORATORY</span>
+            <a
+              href="https://www.linkedin.com/in/pavlo-vus-011747390"
+              target="_blank"
+              rel="noreferrer"
+              className="group text-white/60 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1.5 no-underline pt-1"
+            >
+              <span>DEV // PAVLO VUS</span>
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
+                ↗
+              </span>
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
           </div>
 
           {/* Links Col 2: Action */}
@@ -65,8 +77,21 @@ export function Footer() {
 
         {/* Bottom Legal / Copyright */}
         <div data-reveal className="reveal-stagger-1 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-white/60">
-          <div>
-            © {new Date().getFullYear()} ZONE 53. ALL RIGHTS RESERVED. OPERATED BY EPIKOR.
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>© {new Date().getFullYear()} ZONE 53. ALL RIGHTS RESERVED. OPERATED BY EPIKOR.</span>
+            <span className="hidden sm:inline text-white/30">•</span>
+            <a
+              href="https://www.linkedin.com/in/pavlo-vus-011747390"
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/60 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1 no-underline group"
+              aria-label="Website Developed by Pavlo Vus on LinkedIn (opens in new tab)"
+            >
+              <span>WEBSITE BY PAVLO VUS</span>
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
+                ↗
+              </span>
+            </a>
           </div>
           <div>WARSAW, POLAND // ROBOTICS & AR PROVING GROUNDS</div>
         </div>
