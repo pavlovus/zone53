@@ -1,7 +1,11 @@
 import React from "react";
 import { TelemetryBadge } from "../ui/TelemetryBadge";
 
-export function ThesisManifesto() {
+interface ThesisManifestoProps {
+  onRequestAccess: () => void;
+}
+
+export function ThesisManifesto({ onRequestAccess }: ThesisManifestoProps) {
   return (
     <section className="relative py-20 sm:py-32 bg-black/50 border-b border-[#222222]">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -32,10 +36,11 @@ export function ThesisManifesto() {
                 01
               </span>
               <h3 className="font-sans text-xl sm:text-2xl font-bold text-white mb-4 uppercase group-hover:text-[#FFCC00] transition-colors">
-                Beyond Flat Glass
+                Our Mission
               </h3>
               <p className="font-sans text-sm sm:text-base text-[#D4D4D4] leading-relaxed font-normal">
-                For half a century, computing has been trapped behind two-dimensional flat glass screens. Robotics liberates computation into physical matter — moving objects, inspecting infrastructure, and operating autonomously in the real world.
+                We’re starting to build an infrastructure that will bring together talent, technology, and capital from around the world in one place. Our goal is to foster new robotics startups that will{" "}
+                <span className="text-[#FFCC00] font-semibold">change the world of atoms.</span>
               </p>
             </div>
           </div>
@@ -51,10 +56,27 @@ export function ThesisManifesto() {
                 02
               </span>
               <h3 className="font-sans text-xl sm:text-2xl font-bold text-white mb-4 uppercase group-hover:text-[#FFCC00] transition-colors">
-                The Natural Interface
+                How Can You Join Us?
               </h3>
               <p className="font-sans text-sm sm:text-base text-[#D4D4D4] leading-relaxed font-normal">
-                Instead of a keyboard and cursor, you command robotic fleets with a glance, a gesture, or an intention projected through augmented reality lenses. Humans supervise at the speed of thought.
+                You’ll need to get a special access card that serves as the key to the Hangar. There are only two ways to get one: become a{" "}
+                <button
+                  type="button"
+                  onClick={onRequestAccess}
+                  className="text-[#FFCC00] font-semibold underline underline-offset-4 decoration-[#FFCC00]/50 hover:decoration-[#FFCC00] bg-transparent border-0 p-0 cursor-pointer font-[inherit]"
+                >
+                  sponsor or a partner
+                </button>
+                , or successfully pitch your robotics solution idea to{" "}
+                <a
+                  href="https://www.linkedin.com/in/tymofii-gusak-941271350/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#FFCC00] font-semibold underline underline-offset-4 decoration-[#FFCC00]/50 hover:decoration-[#FFCC00]"
+                >
+                  Tymofii Gusak<span className="sr-only"> (opens in new tab)</span>
+                </a>
+                . There are only 53 places available for now.
               </p>
             </div>
           </div>
@@ -70,11 +92,11 @@ export function ThesisManifesto() {
                 03
               </span>
               <h3 className="font-sans text-xl sm:text-2xl font-bold text-white mb-4 uppercase group-hover:text-[#FFCC00] transition-colors">
-                Physical Convergence
+                How Are We Different From Other Robotics Labs?
               </h3>
               <p className="font-sans text-sm sm:text-base text-[#D4D4D4] leading-relaxed font-normal">
-                To turn this thesis into industrial reality, Epikor brought together Eastern Europe's fiercest hardware engineers, drone operators, and robotics founders into{" "}
-                <span className="text-[#FFCC00] font-semibold">one permanent testing hangar near Warsaw.</span>
+                We focus on radical innovation — that is, combining technologies in unconventional ways — and on the design of the technologies we create. We believe that an unconventional combination of technology and design is key to building robots. We’ll leave fundamental innovation to companies that build software;{" "}
+                <span className="text-[#FFCC00] font-semibold">we’re here to build hardware.</span>
               </p>
             </div>
           </div>

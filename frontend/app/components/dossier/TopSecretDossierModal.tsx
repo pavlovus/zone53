@@ -706,23 +706,6 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                 </button>
               </div>
 
-              {/* Developer Credit */}
-              <div className="flex items-center justify-center font-mono text-[10px] text-white/50 tracking-wider uppercase gap-1.5 pt-1 cascade-in cascade-delay-7">
-                <span>WEBSITE DEVELOPED BY</span>
-                <a
-                  href="https://www.linkedin.com/in/pavlo-vus-011747390"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white/80 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-0.5 no-underline group font-semibold"
-                >
-                  <span>PAVLO VUS</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">
-                    ↗
-                  </span>
-                  <span className="sr-only"> (opens in new tab)</span>
-                </a>
-              </div>
-
               {/* Document small print */}
               <p
                 aria-hidden="true"
@@ -923,18 +906,6 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
               <p className="font-mono text-xs text-[#FFCC00] tracking-wider m-0 cascade-in cascade-delay-4">
                 We will contact you personally via your provided channel.
               </p>
-
-              <div className="font-mono text-[10px] sm:text-[11px] text-white/50 tracking-wider uppercase cascade-in cascade-delay-4 pt-1">
-                <span>WEBSITE DEVELOPED BY </span>
-                <a
-                  href="https://www.linkedin.com/in/pavlo-vus-011747390"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-white/80 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-0.5 no-underline group font-semibold"
-                >
-                  <span>PAVLO VUS [LINKEDIN ↗]</span>
-                </a>
-              </div>
 
               <button
                 id="dossier-dismiss-btn"

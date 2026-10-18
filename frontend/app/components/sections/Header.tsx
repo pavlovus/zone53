@@ -67,23 +67,6 @@ export function Header({ onRequestAccess }: HeaderProps) {
             </span>
           </button>
 
-          <a
-            href="https://www.linkedin.com/in/pavlo-vus-011747390"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-black/70 border border-[#333333] hover:border-[#FFCC00] text-white/60 hover:text-[#FFCC00] text-[10px] font-mono tracking-widest transition-colors cursor-pointer select-none chamfer-sm no-underline group"
-            aria-label="Website Developed by Pavlo Vus on LinkedIn (opens in new tab)"
-            title="Website Developed by Pavlo Vus"
-          >
-            <span>DEV // PAVLO VUS</span>
-            <span
-              className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              aria-hidden="true"
-            >
-              ↗
-            </span>
-          </a>
-
           <Button
             id="header-request-access-btn"
             variant="primary"

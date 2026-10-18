@@ -208,7 +208,7 @@ export default function Home() {
         <CautionRibbons />
 
         {/* 3. The AR-Robotics Thesis: Hardware Paradigm Shift */}
-        <ThesisManifesto />
+        <ThesisManifesto onRequestAccess={openDossier} />
 
         {/* 4. Facility Reconnaissance: Video Player & 4-Sector Capabilities */}
         <FacilityVideo />

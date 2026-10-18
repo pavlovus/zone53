@@ -46,18 +46,6 @@ export function Footer() {
               <span className="sr-only"> (opens in new tab)</span>
             </a>
             <span className="text-white/60">WARSAW HANGAR LABORATORY</span>
-            <a
-              href="https://www.linkedin.com/in/pavlo-vus-011747390"
-              target="_blank"
-              rel="noreferrer"
-              className="group text-white/60 hover:text-[#FFCC00] transition-colors inline-flex items-center gap-1.5 no-underline pt-1"
-            >
-              <span>DEV // PAVLO VUS</span>
-              <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" aria-hidden="true">
-                ↗
-              </span>
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
           </div>
 
           {/* Links Col 2: Action */}
