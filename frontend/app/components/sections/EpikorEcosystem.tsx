@@ -57,7 +57,7 @@ export function EpikorEcosystem() {
                 Epikor
                 <span className="sr-only"> (opens in new tab)</span>
               </a>
-              . Built to give Europe a chance to become a leader in the robotics industry.
+              . Built to give Europe a chance to lead the consumer robotics market and move it forward.
             </p>
           </div>
         </div>

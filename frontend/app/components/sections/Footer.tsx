@@ -81,7 +81,7 @@ export function Footer() {
               </span>
             </a>
           </div>
-          <div>WARSAW, POLAND // ROBOTICS & AR PROVING GROUNDS</div>
+          <div>WARSAW, POLAND // CONSUMER ROBOTICS & AR PROVING GROUNDS</div>
         </div>
       </div>
     </footer>

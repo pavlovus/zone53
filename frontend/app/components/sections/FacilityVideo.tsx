@@ -58,19 +58,19 @@ export function FacilityVideo() {
       desc: "Reinforced 8-meter high ceiling cages with optical motion tracking cameras for testing high-speed autonomous swarm flight algorithms.",
     },
     {
-      title: "Heavy Robotic Arm Testing Bays",
+      title: "Robotic Arm Testing Bays",
       image: "/media/sector-robotic-arms.jpg",
-      desc: "Anchored industrial concrete pads for high-torque robotic manipulators, teleoperation haptic rigs, and load testing.",
+      desc: "Anchored concrete pads for high-torque robotic manipulators, teleoperation haptic rigs, and load testing, so the next generation of personal robots can be pushed to the limit.",
     },
     {
       title: "Spatial Computing & AR Sandbox",
       image: "/media/sector-ar-sandbox.jpg",
-      desc: "Physical obstacle obstacles, LiDAR mapping corridors, and dedicated mixed-reality visual calibration grids for headset tracking.",
+      desc: "Physical obstacles, LiDAR mapping corridors, and dedicated mixed-reality visual calibration grids for headset tracking.",
     },
     {
       title: "Rapid Prototyping\nBay",
       image: "/media/sector-prototyping.jpg",
-      desc: "5-axis CNC mills, carbon fiber autoclaves, automated SMT pick-and-place electronics lines, and custom silicon debugging.",
+      desc: "5-axis CNC mills, carbon fiber autoclaves, automated SMT pick-and-place for electronics prototypes, and custom silicon debugging. Built for one-off consumer robot prototypes, not production runs.",
     },
   ];
 
@@ -90,6 +90,9 @@ export function FacilityVideo() {
             SECRET DEMO <br />
             <span className="text-[#FFCC00]">REVEALED.</span>
           </h2>
+          <p className="font-sans text-sm sm:text-lg text-white/80 max-w-2xl font-normal leading-relaxed mt-6 mb-0">
+            A proving ground for consumer robotics. Every bay here exists to move robots out of the lab and into everyday life.
+          </p>
         </div>
 
         {/* Video Player Container */}

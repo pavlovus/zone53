@@ -37,7 +37,7 @@ export function CautionRibbons() {
 
   // Each ribbon repeats phrase 15 times to ensure continuous coverage on ultra-wide 4K/5K displays
   const ribbonsData = [
-    { r: "0", text: Array(15).fill("UNRELEASED TECH").join(" // ") },
+    { r: "0", text: Array(15).fill("UNRELEASED CONSUMER ROBOTS").join(" // ") },
     { r: "1", text: Array(15).fill("CLOSED EVENTS").join(" // ") },
     { r: "2", text: Array(15).fill("WORLDWIDE NETWORK").join(" // ") },
   ];
@@ -46,7 +46,7 @@ export function CautionRibbons() {
     <section
       ref={sectionRef}
       className="ribbon-stage relative py-24 sm:py-44 bg-black/50"
-      aria-label="Industrial Caution Ribbons"
+      aria-label="Caution Ribbons"
     >
       <div className="flex flex-col gap-6 sm:gap-10 -my-6 sm:-my-10 relative z-10">
         {ribbonsData.map((item) => (

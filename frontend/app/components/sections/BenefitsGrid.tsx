@@ -36,17 +36,17 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
     {
       index: "06",
       title: "Find top engineers",
-      desc: "We help you search for top engineers for your team.",
+      desc: "We help you search for top engineers for your consumer robotics team.",
     },
     {
       index: "07",
-      title: "Robotics & AR consulting",
-      desc: "Get advice and hands-on help to bring robotics or AR into your business, or to build it.",
+      title: "Consumer robotics & AR consulting",
+      desc: "Get advice and hands-on help to build a consumer robotics or AR product, or to bring one to your customers.",
     },
     {
       index: "08",
       title: "Launch in Poland",
-      desc: "Get help to launch and sell your product in Poland.",
+      desc: "Get help to launch and sell your consumer robotics product in Poland.",
     },
   ];
 
@@ -110,7 +110,7 @@ export function BenefitsGrid({ onRequestAccess }: BenefitsGridProps) {
               ALLOCATION APERTURE IS STRICTLY LIMITED
             </h3>
             <p className="font-sans text-xs sm:text-sm text-white/70 m-0">
-              Only approved partner entities, venture syndicates, and hardware teams gain access to the Warsaw hangar.
+              Only approved partner entities, venture syndicates, and consumer robotics hardware teams gain access to the Warsaw hangar.
             </p>
           </div>
 

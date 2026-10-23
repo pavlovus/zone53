@@ -686,7 +686,7 @@ export function TopSecretDossierModal({ isOpen, onClose }: TopSecretDossierModal
                     maxLength={500}
                     value={formData.comment}
                     onChange={handleChange}
-                    placeholder="Briefly describe your hardware goals, pilot needs, or timeline..."
+                    placeholder="Briefly describe your consumer robotics goals, product needs, or timeline..."
                     className="p-3 bg-black border border-[#333333] hover:border-[#666666] hover:bg-[#0A0A0A] focus:border-[#FFCC00] focus:bg-black focus:shadow-[0_0_10px_rgba(255,204,0,0.25)] text-white font-mono text-xs outline-none transition-all resize-none cursor-text"
                   />
                 </div>

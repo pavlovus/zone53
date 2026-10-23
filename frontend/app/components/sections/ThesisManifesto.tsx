@@ -39,8 +39,9 @@ export function ThesisManifesto({ onRequestAccess }: ThesisManifestoProps) {
                 Our Mission
               </h3>
               <p className="font-sans text-sm sm:text-base text-[#D4D4D4] leading-relaxed font-normal">
-                We’re starting to build an infrastructure that will bring together talent, technology, and capital from around the world in one place. Our goal is to foster new robotics startups that will{" "}
-                <span className="text-[#FFCC00] font-semibold">change the world of atoms.</span>
+                We’re starting to build an infrastructure that will bring together talent, technology, and capital from around the world in one place. Our goal is to foster new consumer robotics startups that will{" "}
+                <span className="text-[#FFCC00] font-semibold">change the world of atoms</span>
+                {" "}and move the consumer robotics market forward: robots made for everyday people, not for the factory floor.
               </p>
             </div>
           </div>
@@ -95,7 +96,7 @@ export function ThesisManifesto({ onRequestAccess }: ThesisManifestoProps) {
                 How Are We Different From Other Robotics Labs?
               </h3>
               <p className="font-sans text-sm sm:text-base text-[#D4D4D4] leading-relaxed font-normal">
-                We focus on radical innovation — that is, combining technologies in unconventional ways — and on the design of the technologies we create. We believe that an unconventional combination of technology and design is key to building robots. We’ll leave fundamental innovation to companies that build software;{" "}
+                We’re not building for the production line. We focus on the consumer robotics market, on radical innovation — that is, combining technologies in unconventional ways — and on the design of the technologies we create. We believe that an unconventional combination of technology and design is key to building robots. We’ll leave fundamental innovation to companies that build software;{" "}
                 <span className="text-[#FFCC00] font-semibold">we’re here to build hardware.</span>
               </p>
             </div>

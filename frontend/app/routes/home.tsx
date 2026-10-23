@@ -13,16 +13,16 @@ import { WavyGridBackground } from "../components/webgl/WavyGridBackground";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory" },
+    { title: "ZONE 53 — Europe's Flagship Consumer Robotics & AR Hangar Laboratory" },
     {
       name: "description",
       content:
-        "The world's first Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor. 300 m² of physical testing grounds for unreleased autonomous hardware.",
+        "The world's first consumer Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor, moving the consumer robotics market forward. 300 m² of physical testing grounds for unreleased robots and AR hardware.",
     },
     {
       name: "keywords",
       content:
-        "Robotics, Augmented Reality, Hardware Incubator, Warsaw Robotics Lab, Epikor, Alien Bazaar, Deep Tech Hangar, Autonomous Robotics Poland, Europe Hardware VC, Robotics Proving Grounds",
+        "Consumer Robotics, Robotics, Augmented Reality, Hardware Incubator, Warsaw Robotics Lab, Epikor, Alien Bazaar, Deep Tech Hangar, Autonomous Robotics Poland, Europe Hardware VC, Robotics Proving Grounds",
     },
     { name: "author", content: "Epikor" },
     {
@@ -39,12 +39,12 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:url", content: "https://zone53.eu/" },
     {
       property: "og:title",
-      content: "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory",
+      content: "ZONE 53 — Europe's Flagship Consumer Robotics & AR Hangar Laboratory",
     },
     {
       property: "og:description",
       content:
-        "Where robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
+        "Where consumer robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
     { property: "og:image", content: "https://zone53.eu/media/sky.webp" },
     { property: "og:image:width", content: "1920" },
@@ -58,12 +58,12 @@ export function meta({}: Route.MetaArgs) {
     { name: "twitter:card", content: "summary_large_image" },
     {
       name: "twitter:title",
-      content: "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory",
+      content: "ZONE 53 — Europe's Flagship Consumer Robotics & AR Hangar Laboratory",
     },
     {
       name: "twitter:description",
       content:
-        "Where robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
+        "Where consumer robots meet augmented reality in the physical world. 300 m² proving grounds near Warsaw, Poland. Permanent facility of Epikor.",
     },
     { name: "twitter:image", content: "https://zone53.eu/media/sky.webp" },
     {
@@ -143,7 +143,7 @@ export default function Home() {
         "logo": "https://zone53.eu/media/logo.webp",
         "image": "https://zone53.eu/media/sky.webp",
         "description":
-          "The world's first Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor.",
+          "The world's first consumer Robotics & AR proving hangar near Warsaw, Poland. A classified deep-tech initiative of Epikor, moving the consumer robotics market forward.",
         "parentOrganization": {
           "@type": "Organization",
           "name": "Epikor",
@@ -156,7 +156,7 @@ export default function Home() {
         "@id": "https://zone53.eu/#facility",
         "name": "ZONE 53 Proving Grounds",
         "description":
-          "300 m² testing grounds for unreleased autonomous robotics and augmented reality hardware.",
+          "300 m² testing grounds for unreleased consumer robots and augmented reality hardware.",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Warsaw",
@@ -172,7 +172,7 @@ export default function Home() {
         "@type": "WebSite",
         "@id": "https://zone53.eu/#website",
         "url": "https://zone53.eu/",
-        "name": "ZONE 53 — Europe's Flagship Robotics & AR Hangar Laboratory",
+        "name": "ZONE 53 — Europe's Flagship Consumer Robotics & AR Hangar Laboratory",
         "publisher": {
           "@id": "https://zone53.eu/#organization",
         },
